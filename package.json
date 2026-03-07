@@ -20,7 +20,7 @@
         "@upstash/redis": "latest",
         "drizzle-orm": "latest",
         "next": "^16.0.0",
-        "next-auth": "latest",
+        "next-auth": "^5.0.0-beta.30",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "recharts": "latest"
@@ -29,12 +29,12 @@
         "@types/node": "^22",
         "@types/react": "^19",
         "@types/react-dom": "^19",
+        "dotenv": "^17.3.1",
         "drizzle-kit": "latest",
         "eslint": "^9",
         "eslint-config-next": "^16.0.0",
         "postcss": "^8",
         "tailwindcss": "^4",
-        "typescript": "^5",
-        "dotenv": "latest"
+        "typescript": "^5"
     }
 }

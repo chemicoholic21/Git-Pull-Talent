@@ -1,6 +1,23 @@
-import type { RawGitHubData } from "./github";
-
-export type { RawGitHubData };
+export interface RawGitHubData {
+    user: {
+        name: string | null;
+        avatarUrl: string;
+        bio: string | null;
+        followers: number;
+        following: number;
+        createdAt: string;
+    };
+    repos: Array<{
+        name: string;
+        ownerLogin: string;
+        stargazerCount: number;
+        primaryLanguage: string | null;
+        pushedAt: string | null;
+        isFork: boolean;
+        mergedPrCount: number;
+        mergedPrsByUserCount: number;
+    }>;
+}
 
 export type ExperienceLevel =
     | "Newcomer"
@@ -19,6 +36,7 @@ export interface TopRepositorySummary {
 }
 
 export interface ScoredProfile {
+    user: RawGitHubData["user"];
     totalScore: number;
     topRepositories: TopRepositorySummary[];
     languageBreakdown: Record<string, number>;
@@ -34,7 +52,7 @@ function scoreRepo(stars: number, userPRs: number, totalPRs: number): number {
     return Math.min(raw, MAX_REPO_SCORE);
 }
 
-function deriveExperienceLevel(totalScore: number): ExperienceLevel {
+export function deriveExperienceLevel(totalScore: number): ExperienceLevel {
     if (totalScore < 10) return "Newcomer";
     if (totalScore < 100) return "Contributor";
     if (totalScore < 500) return "Active Contributor";
@@ -42,8 +60,16 @@ function deriveExperienceLevel(totalScore: number): ExperienceLevel {
     return "Open Source Leader";
 }
 
+export interface LeaderboardEntry {
+    rank: number;
+    username: string;
+    totalScore: number;
+    avatarUrl: string;
+}
+
 export function computeScore(raw: RawGitHubData): ScoredProfile {
     const scoredRepos: TopRepositorySummary[] = [];
+    let totalScore = 0;
 
     for (const repo of raw.repos) {
         const stars = repo.stargazerCount ?? 0;
@@ -52,6 +78,8 @@ export function computeScore(raw: RawGitHubData): ScoredProfile {
 
         const score = scoreRepo(stars, userPRs, totalPRs);
         if (score <= 0) continue;
+
+        totalScore += score;
 
         scoredRepos.push({
             name: repo.name,
@@ -67,8 +95,6 @@ export function computeScore(raw: RawGitHubData): ScoredProfile {
     scoredRepos.sort((a, b) => b.score - a.score);
     const topRepositories = scoredRepos.slice(0, 10);
 
-    const totalScore = topRepositories.reduce((sum, r) => sum + r.score, 0);
-
     // Language breakdown from top repos only
     const languageBreakdown: Record<string, number> = {};
     for (const repo of topRepositories) {
@@ -80,6 +106,7 @@ export function computeScore(raw: RawGitHubData): ScoredProfile {
     const experienceLevel = deriveExperienceLevel(totalScore);
 
     return {
+        user: raw.user,
         totalScore,
         topRepositories,
         languageBreakdown,

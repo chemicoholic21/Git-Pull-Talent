@@ -1,19 +1,43 @@
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
+import QueryProvider from "@/providers/QueryProvider";
+import RateLimitBanner from "@/components/RateLimitBanner";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "GitPulse",
-    description: "GitHub contribution analytics",
+  title: "GitPulse — GitHub Contribution Analytics",
+  description: "Score your open source impact. See where your GitHub contributions truly matter.",
+  openGraph: {
+    title: "GitPulse — GitHub Contribution Analytics",
+    description: "Score your open source impact. See where your GitHub contributions truly matter.",
+    images: ["/og-image.png"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GitPulse — GitHub Contribution Analytics",
+    description: "Score your open source impact. See where your GitHub contributions truly matter.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en">
-            <body>{children}</body>
-        </html>
-    );
+  return (
+    <html lang="en">
+      <body className="bg-gray-950 text-gray-300 antialiased">
+        <SessionProvider>
+          <QueryProvider>
+            <Navbar />
+            {children}
+            <RateLimitBanner />
+          </QueryProvider>
+        </SessionProvider>
+      </body>
+    </html>
+  );
 }
