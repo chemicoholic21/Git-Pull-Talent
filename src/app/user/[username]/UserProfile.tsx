@@ -32,6 +32,8 @@ const CHART_COLORS = [
   "#f59e0b", // amber-500
 ];
 
+import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
+
 export default function UserProfile({ username }: { username: string }) {
   const queryClient = useQueryClient();
   const { data: profile, isLoading, isError, error } = useAnalysis(username);
@@ -48,6 +50,10 @@ export default function UserProfile({ username }: { username: string }) {
     alert("Profile URL copied to clipboard!");
   };
 
+  if (isLoading) {
+    return <ProfileSkeleton />;
+  }
+
   if (isError) {
     return (
       <div className="container mx-auto px-4 py-24 text-center">
@@ -62,7 +68,7 @@ export default function UserProfile({ username }: { username: string }) {
     );
   }
 
-  if (isLoading || !profile) return null; // Let Suspense handle loading
+  if (!profile) return null;
 
   const chartData = Object.entries(profile.languageBreakdown)
     .sort(([, a], [, b]) => b - a)
