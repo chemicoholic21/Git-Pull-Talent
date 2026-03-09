@@ -103,5 +103,8 @@ contribution_importance = stars × (user_merged_PRs / total_merged_PRs)
 
 ---
 
+## 🤝 Contributing
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) to get started.
+
 ## 📜 License
 MIT
