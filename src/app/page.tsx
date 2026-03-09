@@ -17,7 +17,7 @@ export default function HomePage() {
     e.preventDefault();
     if (username.trim() && !isPending) {
       setIsPending(true);
-      router.push(`/user/${username.trim().toLowerCase()}`);
+      router.push(`/analyze/${username.trim().toLowerCase()}`);
     }
   };
 
@@ -61,15 +61,15 @@ export default function HomePage() {
               </button>
             </form>
 
-            {session?.user?.name && (
+            {(session?.user?.login || session?.user?.name) && (
               <div className="flex items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-2 duration-700">
                 <img
                   src={session.user.image || ""}
-                  alt={session.user.name}
+                  alt={session.user.name || "User"}
                   className="w-8 h-8 rounded border border-gray-800"
                 />
                 <Link
-                  href={`/user/${session.user.name.toLowerCase()}`}
+                  href={`/analyze/${(session.user.login || session.user.name!).toLowerCase()}`}
                   className="text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1 border-b border-cyan-400/30 hover:border-cyan-400 pb-0.5"
                 >
                   Analyze my profile &rarr;
@@ -201,7 +201,7 @@ export default function HomePage() {
                     <tr key={entry.username} className="hover:bg-gray-800/50 transition-colors group">
                       <td className="px-6 py-4 font-mono text-gray-500 group-hover:text-green-400 transition-colors">#{entry.rank}</td>
                       <td className="px-6 py-4">
-                        <Link href={`/user/${entry.username}`} className="flex items-center gap-3">
+                        <Link href={`/analyze/${entry.username}`} className="flex items-center gap-3">
                           <img src={entry.avatarUrl} alt={entry.username} className="w-6 h-6 rounded border border-gray-700" />
                           <span className="text-white font-medium hover:text-green-400 transition-colors underline decoration-gray-800 underline-offset-4 decoration-1">
                             {entry.username}

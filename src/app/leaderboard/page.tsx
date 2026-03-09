@@ -38,7 +38,7 @@ export default function LeaderboardPage() {
   const handleUserSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchUsername.trim()) {
-      router.push(`/user/${searchUsername.trim().toLowerCase()}`);
+      router.push(`/analyze/${searchUsername.trim().toLowerCase()}`);
     }
   };
 
@@ -117,7 +117,7 @@ export default function LeaderboardPage() {
                 ))
               ) : (
                 filteredData?.map((entry) => {
-                  const isCurrentUser = session?.user?.name?.toLowerCase() === entry.username.toLowerCase();
+                  const isCurrentUser = (session?.user?.login || session?.user?.name)?.toLowerCase() === entry.username.toLowerCase();
                   const expLevel = deriveExperienceLevel(entry.totalScore);
                   const scoreWidth = (entry.totalScore / maxScore) * 100;
 
@@ -138,7 +138,7 @@ export default function LeaderboardPage() {
                         </span>
                       </td>
                       <td className="px-6 py-5">
-                        <Link href={`/user/${entry.username}`} className="flex items-center gap-3">
+                        <Link href={`/analyze/${entry.username}`} className="flex items-center gap-3">
                           <img
                             src={entry.avatarUrl}
                             alt={entry.username}
