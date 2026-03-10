@@ -1,110 +1,154 @@
-# GitPulse — Project Intelligence
 
-GitPulse is a public GitHub analytics platform that computes a **contribution importance score** for any GitHub user based on their merged pull requests across open source repositories. It surfaces meaningful developer insights that aren't visible on a standard GitHub profile.
+# GitPulse
 
-## 🚀 Quick Start
+**Project Intelligence for Open Source Contributors**
 
-### Prerequisites
-- Node.js 18+ 
-- A GitHub account (for PATs and OAuth)
-- [Neon](https://neon.tech) (PostgreSQL)
-- [Upstash](https://upstash.com) (Redis)
+GitPulse computes a *contribution importance score* for any GitHub user — a single number that reflects not just how much someone contributes, but how much it *matters*. It works by analyzing merged pull requests across open source repositories and weighting them by the influence of those projects.
 
-### Local Setup
-1. **Clone and install:**
-   ```bash
-   git clone https://github.com/your-username/gitpulse.git
-   cd gitpulse
-   npm install
-   ```
-
-2. **Environment Variables:**
-   Create a `.env.local` file (copy from `.env.example` if available) and fill in the credentials:
-   ```env
-   # Auth
-   GITHUB_CLIENT_ID="..."
-   GITHUB_CLIENT_SECRET="..."
-   NEXTAUTH_SECRET="..."
-   NEXTAUTH_URL="http://localhost:3000"
-
-   # Database (Neon)
-   DATABASE_URL="postgresql://..."
-
-   # Redis (Upstash)
-   UPSTASH_REDIS_REST_URL="..."
-   UPSTASH_REDIS_REST_TOKEN="..."
-
-   # GitHub PAT Pool
-   GITHUB_TOKEN_1="ghp_..."
-   ```
-
-3. **Database Migration:**
-   ```bash
-   npm run db:push
-   ```
-
-4. **Run Dev Server:**
-   ```bash
-   npm run dev
-   ```
+Standard GitHub profiles show activity. GitPulse shows impact.
 
 ---
 
-## 🏗️ Deployment Guide (Vercel)
+## How the Score Works
 
-### 1. Database Setup (Neon)
-1. Create a new project on [Neon](https://neon.tech).
-2. Copy the **Connection String** (Pooled is recommended).
-3. Run `npm run db:push` locally with this string to sync the schema.
+The core formula is simple by design:
 
-### 2. Cache & Rate Limiting (Upstash)
-1. Create a Redis database on [Upstash](https://upstash.com).
-2. Copy the `REST_URL` and `REST_TOKEN`.
-3. (Optional) Set up a global rate limit window in the Upstash console.
-
-### 3. GitHub OAuth
-1. Go to **GitHub Settings > Developer Settings > OAuth Apps**.
-2. Create a new App.
-3. Set **Homepage URL** to your Vercel URL (e.g., `https://gitpulse.vercel.app`).
-4. Set **Authorization callback URL** to `https://gitpulse.vercel.app/api/auth/callback/github`.
-
-### 4. Vercel Deployment
-1. Import your repository to Vercel.
-2. Add all variables from your `.env.local` to the **Environment Variables** section in Vercel project settings.
-3. Ensure `NEXTAUTH_URL` is set to your production domain.
-4. Deploy!
-
----
-
-## 📊 Core Scoring Formula
-The importance score is calculated as:
 ```
 contribution_importance = stars × (user_merged_PRs / total_merged_PRs)
 ```
-- **Filter**: Repos with < 10 stars are skipped.
-- **Cap**: Per-repo score is capped at 10,000 to prevent outliers.
-- **Levels**:
-  - `< 10`: Newcomer
-  - `10 – 99`: Contributor
-  - `100 – 499`: Active Contributor
-  - `500 – 1999`: Core Contributor
-  - `2000+`: Open Source Leader
+
+A PR merged into a 40,000-star repo counts for more than ten merged into projects nobody uses. Repos under 10 stars are excluded, and per-repo scores are capped at 10,000 to prevent a single viral project from dominating the picture.
+
+**Score levels:**
+
+| Score | Level |
+|-------|-------|
+| < 10 | Newcomer |
+| 10 – 99 | Contributor |
+| 100 – 499 | Active Contributor |
+| 500 – 1,999 | Core Contributor |
+| 2,000+ | Open Source Leader |
 
 ---
 
-## 🛠️ Tech Stack
-- **Framework**: Next.js 14/15 (App Router)
-- **Database**: Neon (Serverless Postgres)
-- **ORM**: Drizzle
-- **Cache**: Upstash Redis
-- **Auth**: NextAuth.js v5
-- **Charts**: Recharts
-- **Styling**: Tailwind CSS (Dark Terminal Aesthetic)
+## Stack
+
+GitPulse is built on Next.js 14/15 (App Router) with a dark terminal aesthetic.
+
+- **Database** — Neon (serverless Postgres) via Drizzle ORM
+- **Cache & rate limiting** — Upstash Redis
+- **Auth** — NextAuth.js v5 with GitHub OAuth
+- **Charts** — Recharts
+- **Styling** — Tailwind CSS
 
 ---
 
-## 🤝 Contributing
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) to get started.
+## Running Locally
 
-## 📜 License
-MIT
+**Prerequisites:** Node.js 18+, a GitHub account, a [Neon](https://neon.tech) project, and an [Upstash](https://upstash.com) Redis database.
+
+**1. Clone and install**
+
+```bash
+git clone https://github.com/chemicoholic21/gitpulse.git
+cd gitpulse
+npm install
+```
+
+**2. Configure environment**
+
+Copy `.env.example` to `.env.local` and fill in your credentials:
+
+```env
+# GitHub OAuth
+GITHUB_CLIENT_ID="..."
+GITHUB_CLIENT_SECRET="..."
+
+# NextAuth
+NEXTAUTH_SECRET="..."
+NEXTAUTH_URL="http://localhost:3000"
+
+# Neon (Postgres)
+DATABASE_URL="postgresql://..."
+
+# Upstash (Redis)
+UPSTASH_REDIS_REST_URL="..."
+UPSTASH_REDIS_REST_TOKEN="..."
+
+# GitHub PAT pool (add more as needed)
+GITHUB_TOKEN_1="ghp_..."
+```
+
+**3. Push the schema**
+
+```bash
+npm run db:push
+```
+
+**4. Start the dev server**
+
+```bash
+npm run dev
+```
+
+---
+
+## Deploying to Vercel
+
+**Neon (database)**
+
+Create a project, grab the pooled connection string, and run `npm run db:push` locally against it to sync the schema before deploying.
+
+**Upstash (cache)**
+
+Create a Redis database and copy the `REST_URL` and `REST_TOKEN`. You can optionally configure a global rate limit window from the Upstash console.
+
+**GitHub OAuth**
+
+Go to *Settings → Developer Settings → OAuth Apps* and create a new app:
+
+- Homepage URL: `https://gitpulse-one.vercel.app`
+- Callback URL: `https://gitpulse-one.vercel.app/api/auth/callback/github`
+
+**Vercel**
+
+Import the repo, add all `.env.local` variables to the project's environment settings (make sure `NEXTAUTH_URL` points to your production domain), and deploy.
+
+---
+
+## Contributing
+
+Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+This project is licensed under the **MIT License** — you're free to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of this software, with one condition: the original copyright notice and this permission notice must be included in all copies or substantial portions of the software.
+
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+See the full license text in [LICENSE](./LICENSE).
+```
+
+And the standalone `LICENSE` file itself:
+```
+MIT License
+
+Copyright (c) 2026 Taniya Souza
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
