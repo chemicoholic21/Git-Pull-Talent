@@ -162,7 +162,12 @@ export default function LeaderboardPage() {
                       <td className="px-6 py-5 text-right">
                         <div className="flex flex-col items-end gap-1.5">
                           <span className="text-lg font-mono text-white font-bold tracking-tight">
-                            {entry.totalScore.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+                            {entry.totalScore > 0
+                              ? entry.totalScore.toLocaleString(undefined, {
+                                  minimumFractionDigits: 1,
+                                  maximumFractionDigits: 1,
+                                })
+                              : "-"}
                           </span>
                           <div className="w-24 h-1 bg-gray-800 rounded-full overflow-hidden">
                             <div
