@@ -1,4 +1,4 @@
-import { integer, pgTable, real, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, real, text, timestamp } from "drizzle-orm/pg-core";
 
 export const analyses = pgTable("analyses", {
     id: text("id").primaryKey(), // GitHub username
@@ -12,7 +12,16 @@ export const analyses = pgTable("analyses", {
 
 export const leaderboard = pgTable("leaderboard", {
     username: text("username").primaryKey(),
-    totalScore: real("total_score"),
+    name: text("name"),
     avatarUrl: text("avatar_url"),
+    totalScore: real("total_score"),
+    company: text("company"),
+    blog: text("blog"),
+    location: text("location"),
+    email: text("email"),
+    bio: text("bio"),
+    twitterUsername: text("twitter_username"),
+    hireable: boolean("hireable"),
+    createdAt: timestamp("created_at"),
     updatedAt: timestamp("updated_at").defaultNow(),
 });

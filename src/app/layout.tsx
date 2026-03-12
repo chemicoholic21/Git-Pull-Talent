@@ -4,6 +4,10 @@ import QueryProvider from "@/providers/QueryProvider";
 import RateLimitBanner from "@/components/RateLimitBanner";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL || "https://gitpulse-one.vercel.app/"),
@@ -29,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="antialiased min-h-screen relative">
         <div className="grain-overlay pointer-events-none" aria-hidden="true" />
         <SessionProvider>

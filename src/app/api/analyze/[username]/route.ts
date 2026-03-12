@@ -98,15 +98,32 @@ export async function GET(
       .insert(leaderboard)
       .values({
         username: username,
-        totalScore: profile.totalScore,
+        name: rawData.user.name,
         avatarUrl: rawData.user.avatarUrl,
+        totalScore: profile.totalScore,
+        company: rawData.user.company,
+        blog: rawData.user.websiteUrl,
+        location: rawData.user.location,
+        email: rawData.user.email,
+        bio: rawData.user.bio,
+        twitterUsername: rawData.user.twitterUsername,
+        hireable: rawData.user.isHireable,
+        createdAt: new Date(rawData.user.createdAt),
         updatedAt: new Date(),
       })
       .onConflictDoUpdate({
         target: leaderboard.username,
         set: {
-          totalScore: profile.totalScore,
+          name: rawData.user.name,
           avatarUrl: rawData.user.avatarUrl,
+          totalScore: profile.totalScore,
+          company: rawData.user.company,
+          blog: rawData.user.websiteUrl,
+          location: rawData.user.location,
+          email: rawData.user.email,
+          bio: rawData.user.bio,
+          twitterUsername: rawData.user.twitterUsername,
+          hireable: rawData.user.isHireable,
           updatedAt: new Date(),
         },
       });
