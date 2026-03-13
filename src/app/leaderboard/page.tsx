@@ -10,15 +10,28 @@ import { Search } from "lucide-react";
 export default function LeaderboardPage() {
   const [location, setLocation] = useState("");
   const [debouncedLocation, setDebouncedLocation] = useState("");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(20);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedLocation(location);
+      setPageIndex(0); // Reset to first page when filter changes
     }, 500);
     return () => clearTimeout(timer);
   }, [location]);
 
-  const { data: leaderboard, isLoading } = useLeaderboard(undefined, debouncedLocation);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPageIndex(0); // Reset to first page when search changes
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const { data, isLoading } = useLeaderboard(pageSize, debouncedLocation, pageIndex + 1, debouncedSearch);
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-200 py-24 px-6">
@@ -46,10 +59,20 @@ export default function LeaderboardPage() {
         </div>
 
         <div className="bg-neutral-900/30 border border-neutral-800 rounded-xl p-1 md:p-6 backdrop-blur-sm">
-          {isLoading ? (
+          {isLoading && !data ? (
             <LeaderboardSkeleton />
           ) : (
-            <LeaderboardTable data={leaderboard || []} />
+            <LeaderboardTable 
+              data={data?.data || []} 
+              totalCount={data?.totalCount || 0}
+              pageIndex={pageIndex}
+              pageSize={pageSize}
+              onPageChange={setPageIndex}
+              onPageSizeChange={setPageSize}
+              onSearchChange={setSearch}
+              search={search}
+              isLoading={isLoading}
+            />
           )}
         </div>
 

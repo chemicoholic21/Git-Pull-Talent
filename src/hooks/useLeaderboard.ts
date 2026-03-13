@@ -1,13 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { LeaderboardEntry } from "@/lib/scoring";
 
-export function useLeaderboard(limit?: number, location?: string) {
+export interface LeaderboardResponse {
+  data: LeaderboardEntry[];
+  totalCount: number;
+  page: number;
+  limit: number;
+}
+
+export function useLeaderboard(limit?: number, location?: string, page?: number, search?: string) {
   return useQuery({
-    queryKey: ["leaderboard", limit, location],
-    queryFn: async (): Promise<LeaderboardEntry[]> => {
+    queryKey: ["leaderboard", limit, location, page, search],
+    queryFn: async (): Promise<LeaderboardResponse> => {
       const params = new URLSearchParams();
       if (limit) params.set("limit", limit.toString());
       if (location) params.set("location", location);
+      if (page) params.set("page", page.toString());
+      if (search) params.set("search", search);
       
       const url = `/api/leaderboard?${params.toString()}`;
       const res = await fetch(url);

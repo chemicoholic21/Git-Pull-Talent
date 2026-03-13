@@ -149,32 +149,51 @@ export const columns: ColumnDef<LeaderboardEntry>[] = [
 
 interface LeaderboardTableProps {
   data: LeaderboardEntry[];
+  totalCount: number;
+  pageIndex: number;
+  pageSize: number;
+  onPageChange: (pageIndex: number) => void;
+  onPageSizeChange: (pageSize: number) => void;
+  onSearchChange: (search: string) => void;
+  search: string;
+  isLoading?: boolean;
 }
 
-export function LeaderboardTable({ data }: LeaderboardTableProps) {
+export function LeaderboardTable({ 
+  data, 
+  totalCount, 
+  pageIndex, 
+  pageSize, 
+  onPageChange,
+  onPageSizeChange,
+  onSearchChange,
+  search,
+  isLoading
+}: LeaderboardTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([{ id: "totalScore", desc: true }]);
-  const [globalFilter, setGlobalFilter] = React.useState("");
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [expanded, setExpanded] = React.useState({});
 
   const table = useReactTable({
     data,
     columns,
+    pageCount: Math.ceil(totalCount / pageSize),
     onSortingChange: setSorting,
-    onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: globalFilterFn,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onExpandedChange: setExpanded,
     getRowCanExpand: () => true,
+    manualPagination: true,
+    manualFiltering: true,
     state: {
       sorting,
-      globalFilter,
       columnVisibility,
       expanded,
+      pagination: {
+        pageIndex,
+        pageSize,
+      },
     },
   });
 
@@ -183,13 +202,18 @@ export function LeaderboardTable({ data }: LeaderboardTableProps) {
       <div className="flex items-center relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-500" />
         <Input
-          placeholder="Filter by username, name, or company..."
-          value={globalFilter ?? ""}
-          onChange={(event) => setGlobalFilter(event.target.value)}
+          placeholder="Search by username or name..."
+          value={search}
+          onChange={(event) => onSearchChange(event.target.value)}
           className="max-w-md bg-neutral-950 border-neutral-800 pl-10 focus:ring-green-400 focus:border-green-400/50 transition-all"
         />
       </div>
-      <div className="rounded-md border border-neutral-800 bg-neutral-950 overflow-hidden">
+      <div className="rounded-md border border-neutral-800 bg-neutral-950 overflow-hidden relative">
+        {isLoading && (
+          <div className="absolute inset-0 bg-neutral-950/50 backdrop-blur-sm z-10 flex items-center justify-center">
+            <div className="h-8 w-8 border-4 border-green-500/20 border-t-green-500 rounded-full animate-spin" />
+          </div>
+        )}
         <Table>
           <TableHeader className="bg-neutral-900/50 border-b border-neutral-800">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -353,16 +377,16 @@ export function LeaderboardTable({ data }: LeaderboardTableProps) {
       </div>
       <div className="flex items-center justify-between py-4">
         <div className="text-sm text-neutral-500 font-mono">
-          Showing <span className="text-neutral-300">{table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}</span>-
-          <span className="text-neutral-300">{Math.min((table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize, data.length)}</span> of{" "}
-          <span className="text-neutral-300">{data.length}</span> developers
+          Showing <span className="text-neutral-300">{pageIndex * pageSize + 1}</span>-
+          <span className="text-neutral-300">{Math.min((pageIndex + 1) * pageSize, totalCount)}</span> of{" "}
+          <span className="text-neutral-300">{totalCount}</span> developers
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => onPageChange(pageIndex - 1)}
+            disabled={pageIndex === 0}
             className="bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-600 disabled:opacity-30 transition-all"
           >
             Previous
@@ -370,8 +394,8 @@ export function LeaderboardTable({ data }: LeaderboardTableProps) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => onPageChange(pageIndex + 1)}
+            disabled={(pageIndex + 1) * pageSize >= totalCount}
             className="bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-600 disabled:opacity-30 transition-all"
           >
             Next

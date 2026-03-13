@@ -34,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
-      <body className="antialiased min-h-screen relative">
+      <body className="antialiased min-h-screen relative" suppressHydrationWarning>
         <div className="grain-overlay pointer-events-none" aria-hidden="true" />
         <SessionProvider>
           <QueryProvider>

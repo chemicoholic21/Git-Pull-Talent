@@ -177,7 +177,7 @@ export default function HomePage() {
                     </tr>
                   ))
                 ) : (
-                  leaderboard?.slice(0, 5).map((entry) => (
+                  leaderboard?.data?.slice(0, 5).map((entry) => (
                     <tr key={entry.username} className="hover:bg-white/[0.02] transition-colors group">
                       <td className="px-10 py-6 font-mono text-gray-600 group-hover:text-sky-400 transition-colors">
                         {entry.rank.toString().padStart(2, '0')}

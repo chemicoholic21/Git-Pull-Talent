@@ -1,32 +1,66 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { leaderboard } from "@/lib/schema";
-import { desc, ilike } from "drizzle-orm";
+import { desc, ilike, count, sql, or, and } from "drizzle-orm";
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const limitParam = searchParams.get("limit");
-    const limit = limitParam ? Math.min(parseInt(limitParam), 100) : 100;
+    const pageParam = searchParams.get("page");
+    const limit = limitParam ? parseInt(limitParam) : 20;
+    const page = pageParam ? parseInt(pageParam) : 1;
+    const offset = (page - 1) * limit;
     const location = searchParams.get("location");
+    const search = searchParams.get("search");
 
-    const query = db.select().from(leaderboard);
-
+    const filters = [];
     if (location) {
-      query.where(ilike(leaderboard.location, `%${location}%`));
+      filters.push(ilike(leaderboard.location, `%${location}%`));
+    }
+    if (search) {
+      filters.push(
+        or(
+          ilike(leaderboard.username, `%${search}%`),
+          ilike(leaderboard.name, `%${search}%`)
+        )
+      );
+    }
+
+    const whereClause = filters.length > 0 ? and(...filters) : undefined;
+
+    // Get total count for pagination
+    let countQuery = db.select({ value: count() }).from(leaderboard);
+    if (whereClause) {
+      countQuery.where(whereClause);
+    }
+    const [totalCountRes] = await countQuery;
+    const totalCount = Number(totalCountRes.value);
+
+    // Get data
+    let query = db.select().from(leaderboard);
+    if (whereClause) {
+      query.where(whereClause);
     }
 
     const topUsers = await query
       .orderBy(desc(leaderboard.totalScore))
-      .limit(limit);
+      .limit(limit)
+      .offset(offset);
 
-    const result = topUsers.map((user, index) => ({
-      rank: index + 1,
+    const data = topUsers.map((user, index) => ({
+      rank: offset + index + 1,
       ...user,
     }));
 
-    return NextResponse.json(result);
+    return NextResponse.json({
+      data,
+      totalCount,
+      page,
+      limit,
+    });
   } catch (error: any) {
+
     console.error("[leaderboard]", error);
     return NextResponse.json(
       { error: "Failed to fetch leaderboard" },
