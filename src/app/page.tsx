@@ -124,7 +124,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="cinematic-card p-8 group">
                 <p className="text-gray-600 text-[10px] tracking-[0.2em] uppercase mb-2 font-bold group-hover:text-sky-400 transition-colors">Cumulative Rank</p>
                 <p className="text-4xl font-serif text-white">#1,422</p>
@@ -133,7 +133,7 @@ export default function HomePage() {
                 <p className="text-gray-600 text-[10px] tracking-[0.2em] uppercase mb-2 font-bold group-hover:text-purple-400 transition-colors">Status</p>
                 <p className="text-xl font-serif text-white uppercase tracking-wider">Core</p>
               </div>
-              <div className="cinematic-card p-8 col-span-2 group">
+              <div className="cinematic-card p-8 sm:col-span-2 group">
                 <p className="text-gray-600 text-[10px] tracking-[0.2em] uppercase mb-4 font-bold group-hover:text-sky-400 transition-colors">Primary Repository</p>
                 <div className="flex justify-between items-end">
                   <p className="text-2xl font-serif text-white">facebook/react</p>
@@ -153,8 +153,8 @@ export default function HomePage() {
         </div>
 
         <div className="container mx-auto max-w-4xl">
-          <div className="cinematic-card overflow-hidden">
-            <table className="w-full text-left">
+          <div className="cinematic-card overflow-x-auto">
+            <table className="w-full text-left whitespace-nowrap">
               <thead>
                 <tr className="bg-white/5 text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">
                   <th className="px-10 py-6">Rank</th>

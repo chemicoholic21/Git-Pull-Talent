@@ -75,8 +75,8 @@ export default function DiscoverPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSearch} className="mb-12 flex gap-4 max-w-xl mx-auto relative">
-          <div className="relative flex-1">
+        <form onSubmit={handleSearch} className="mb-12 flex flex-col sm:flex-row gap-4 max-w-xl mx-auto relative">
+          <div className="relative flex-1 w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-500" />
             <Input
               type="text"

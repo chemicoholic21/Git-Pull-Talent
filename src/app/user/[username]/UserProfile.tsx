@@ -174,7 +174,7 @@ export default function UserProfile({ username }: { username: string }) {
               <span className="text-[10px] text-gray-600 font-mono tracking-widest uppercase">Last 50 Repositories</span>
             </div>
             
-            <div className="cinematic-card overflow-hidden">
+            <div className="cinematic-card overflow-x-auto">
               <table className="w-full text-left text-sm whitespace-nowrap">
                 <thead>
                   <tr className="bg-white/[0.03] text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold border-b border-white/5">
@@ -231,7 +231,7 @@ export default function UserProfile({ username }: { username: string }) {
               <h2 className="editorial-heading text-3xl">Language Bias</h2>
             </div>
             
-            <div className="cinematic-card p-10 h-[500px] flex flex-col group">
+            <div className="cinematic-card p-4 sm:p-10 h-[500px] flex flex-col group w-full overflow-hidden">
               <div className="flex-1">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart layout="vertical" data={chartData} margin={{ left: -20, right: 10 }}>
@@ -283,7 +283,7 @@ export default function UserProfile({ username }: { username: string }) {
             
             {showExplanation && (
               <div className="px-12 pb-16 animate-in slide-in-from-top-4 duration-500">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-20 pt-12 border-t border-white/5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 pt-12 border-t border-white/5">
                   <div>
                     <h4 className="text-[10px] tracking-[0.3em] uppercase font-bold text-sky-400 mb-6">Mathematical Foundation</h4>
                     <div className="bg-black/40 p-10 rounded-xl border border-white/5 font-mono text-sm leading-relaxed mb-8 italic text-white/80">

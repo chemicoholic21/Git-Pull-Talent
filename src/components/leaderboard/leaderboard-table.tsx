@@ -117,11 +117,13 @@ export function LeaderboardTable({
       accessorKey: "company",
       header: "Company",
       cell: ({ row }) => <div className="text-neutral-400 truncate max-w-[150px]">{row.getValue("company") || "—"}</div>,
+      meta: { className: "hidden lg:table-cell" },
     },
     {
       accessorKey: "location",
       header: "Location",
       cell: ({ row }) => <div className="text-neutral-400 truncate max-w-[150px]">{row.getValue("location") || "—"}</div>,
+      meta: { className: "hidden md:table-cell" },
     },
     {
       accessorKey: "hireable",
@@ -134,6 +136,7 @@ export function LeaderboardTable({
           </Badge>
         ) : null;
       },
+      meta: { className: "hidden sm:table-cell" },
     },
     {
       accessorKey: "updatedAt",
@@ -153,6 +156,7 @@ export function LeaderboardTable({
         const date = new Date(row.getValue("updatedAt"));
         return <div className="text-xs text-neutral-500 font-mono">{date.toLocaleDateString()}</div>;
       },
+      meta: { className: "hidden lg:table-cell" },
     },
     {
       id: "expander",
@@ -245,7 +249,7 @@ export function LeaderboardTable({
               <TableRow key={headerGroup.id} className="border-neutral-800 hover:bg-transparent">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-neutral-500 font-mono text-xs uppercase tracking-wider py-4">
+                    <TableHead key={header.id} className={cn("text-neutral-500 font-mono text-xs uppercase tracking-wider py-4", (header.column.columnDef.meta as any)?.className)}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -271,7 +275,7 @@ export function LeaderboardTable({
                     onClick={() => row.toggleExpanded()}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="py-4">
+                      <TableCell key={cell.id} className={cn("py-4", (cell.column.columnDef.meta as any)?.className)}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
@@ -279,7 +283,7 @@ export function LeaderboardTable({
                   {row.getIsExpanded() && (
                     <TableRow className="bg-neutral-900/20 border-neutral-800 hover:bg-neutral-900/20">
                       <TableCell colSpan={tableColumns.length} className="p-0 border-b border-neutral-800">
-                        <div className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-12 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <div className="p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 animate-in fade-in slide-in-from-top-2 duration-300">
                            <div className="lg:col-span-2 space-y-6">
                               <div className="flex items-start gap-5">
                                 <Avatar className="h-20 w-20 border-2 border-neutral-800 shadow-2xl">
@@ -375,7 +379,7 @@ export function LeaderboardTable({
                              </div>
                            </div>
                            
-                           <div className="flex flex-col gap-8 border-l border-neutral-800 pl-12">
+                           <div className="flex flex-col gap-8 lg:border-l border-t lg:border-t-0 border-neutral-800 lg:pl-12 pt-8 lg:pt-0 mt-8 lg:mt-0">
                              <div>
                                <p className="text-xs text-neutral-500 uppercase font-mono tracking-widest mb-2 text-left">Top Expertise</p>
                                <div className="flex flex-wrap gap-2 mb-6">
