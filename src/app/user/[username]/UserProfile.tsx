@@ -277,7 +277,7 @@ export default function UserProfile({ username }: { username: string }) {
               onClick={() => setShowExplanation(!showExplanation)}
               className="w-full px-12 py-8 flex items-center justify-between hover:bg-white/[0.01] transition-all"
             >
-              <span className="editorial-heading text-xl">Protocol Methodology</span>
+              <span className="editorial-heading text-xl">Score Breakdown</span>
               <span className="text-gray-600 font-mono text-2xl">{showExplanation ? "−" : "+"}</span>
             </button>
             
