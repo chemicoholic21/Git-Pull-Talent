@@ -66,10 +66,14 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .offset(offset);
 
-    const data = topUsers.map((user, index) => ({
-      rank: offset + index + 1,
-      ...user,
-    }));
+    const data = topUsers.map((user, index) => {
+      const { uniqueSkillsJson, ...rest } = user;
+      return {
+        rank: offset + index + 1,
+        ...rest,
+        uniqueSkills: uniqueSkillsJson || [],
+      };
+    });
 
     return NextResponse.json({
       data,

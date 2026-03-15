@@ -76,12 +76,10 @@ export async function GET(
         frontendScore: profile.frontendScore,
         devopsScore: profile.devopsScore,
         dataScore: profile.dataScore,
+        uniqueSkillsJson: profile.uniqueSkills,
         topReposJson: JSON.stringify(profile.topRepositories),
         languagesJson: JSON.stringify(profile.languageBreakdown),
-        contributionCount: rawData.repos.reduce(
-          (sum, r) => sum + r.mergedPrsByUserCount,
-          0
-        ),
+        contributionCount: profile.contributionCount,
         cachedAt: new Date(),
       })
       .onConflictDoUpdate({
@@ -93,12 +91,10 @@ export async function GET(
           frontendScore: profile.frontendScore,
           devopsScore: profile.devopsScore,
           dataScore: profile.dataScore,
+          uniqueSkillsJson: profile.uniqueSkills,
           topReposJson: JSON.stringify(profile.topRepositories),
           languagesJson: JSON.stringify(profile.languageBreakdown),
-          contributionCount: rawData.repos.reduce(
-            (sum, r) => sum + r.mergedPrsByUserCount,
-            0
-          ),
+          contributionCount: profile.contributionCount,
           cachedAt: new Date(),
         },
       });
@@ -117,6 +113,7 @@ export async function GET(
         frontendScore: profile.frontendScore,
         devopsScore: profile.devopsScore,
         dataScore: profile.dataScore,
+        uniqueSkillsJson: profile.uniqueSkills,
         company: rawData.user.company,
         blog: rawData.user.websiteUrl,
         location: rawData.user.location,
@@ -139,6 +136,7 @@ export async function GET(
           frontendScore: profile.frontendScore,
           devopsScore: profile.devopsScore,
           dataScore: profile.dataScore,
+          uniqueSkillsJson: profile.uniqueSkills,
           company: rawData.user.company,
           blog: rawData.user.websiteUrl,
           location: rawData.user.location,

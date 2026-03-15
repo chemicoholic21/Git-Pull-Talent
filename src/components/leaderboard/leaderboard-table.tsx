@@ -377,9 +377,22 @@ export function LeaderboardTable({
                            
                            <div className="flex flex-col gap-8 border-l border-neutral-800 pl-12">
                              <div>
-                               <p className="text-xs text-neutral-500 uppercase font-mono tracking-widest mb-2">Contribution Score</p>
-                               <div className="flex items-baseline gap-1">
-                                 <p className="text-7xl font-mono font-black text-white tracking-tighter tabular-nums">{row.original.totalScore.toFixed(0)}</p>
+                               <p className="text-xs text-neutral-500 uppercase font-mono tracking-widest mb-2 text-left">Top Expertise</p>
+                               <div className="flex flex-wrap gap-2 mb-6">
+                                 {row.original.uniqueSkills && row.original.uniqueSkills.length > 0 ? (
+                                   row.original.uniqueSkills.map((skill) => (
+                                     <Badge key={skill} variant="outline" className="bg-neutral-900 border-neutral-800 text-neutral-300 font-mono text-[10px] lowercase px-2 py-0.5">
+                                       {skill}
+                                     </Badge>
+                                   ))
+                                 ) : (
+                                   <span className="text-xs text-neutral-600 font-mono italic text-left">No specific skills identified yet.</span>
+                                 )}
+                               </div>
+                               
+                               <p className="text-xs text-neutral-500 uppercase font-mono tracking-widest mb-2 text-left">Contribution Score</p>
+                               <div className="flex items-baseline gap-1 mb-8">
+                                 <p className="text-7xl font-mono font-black text-white tracking-tighter tabular-nums text-left">{row.original.totalScore.toFixed(0)}</p>
                                  <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
                                </div>
                              </div>

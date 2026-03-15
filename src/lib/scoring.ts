@@ -58,6 +58,7 @@ export interface ScoredProfile {
     devopsScore: number;
     dataScore: number;
     contributionCount: number;
+    uniqueSkills: string[];
     topRepositories: TopRepositorySummary[];
     languageBreakdown: Record<string, number>;
     experienceLevel: ExperienceLevel;
@@ -92,6 +93,7 @@ export interface LeaderboardEntry {
     frontendScore: number;
     devopsScore: number;
     dataScore: number;
+    uniqueSkills: string[];
     company: string | null;
     blog: string | null;
     location: string | null;
@@ -113,12 +115,26 @@ export function computeScore(raw: RawGitHubData): ScoredProfile {
     let dataScore = 0;
     let contributionCount = 0;
 
+    const skillCounts: Record<string, number> = {};
+
     for (const repo of raw.repos) {
         const stars = repo.stargazerCount ?? 0;
         const userPRs = repo.mergedPrsByUserCount ?? 0;
         const totalPRs = repo.mergedPrCount ?? 0;
 
         contributionCount += userPRs;
+
+        // Collect all skills regardless of score for now (or only for contributing repos)
+        if (userPRs > 0) {
+            const repoSkills = new Set<string>();
+            if (repo.primaryLanguage) repoSkills.add(repo.primaryLanguage.toLowerCase());
+            repo.languages.forEach(l => repoSkills.add(l.toLowerCase()));
+            repo.topics.forEach(t => repoSkills.add(t.toLowerCase()));
+
+            repoSkills.forEach(skill => {
+                skillCounts[skill] = (skillCounts[skill] || 0) + 1;
+            });
+        }
 
         const score = scoreRepo(stars, userPRs, totalPRs);
         if (score <= 0) continue;
@@ -178,6 +194,12 @@ export function computeScore(raw: RawGitHubData): ScoredProfile {
 
     const experienceLevel = deriveExperienceLevel(totalScore);
 
+    // Top 10 skills by frequency
+    const uniqueSkills = Object.entries(skillCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([skill]) => skill);
+
     return {
         user: raw.user,
         totalScore,
@@ -187,6 +209,7 @@ export function computeScore(raw: RawGitHubData): ScoredProfile {
         devopsScore,
         dataScore,
         contributionCount,
+        uniqueSkills,
         topRepositories,
         languageBreakdown,
         experienceLevel,
