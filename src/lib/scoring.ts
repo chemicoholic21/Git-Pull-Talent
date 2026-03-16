@@ -100,6 +100,7 @@ export interface LeaderboardEntry {
     email: string | null;
     bio: string | null;
     twitterUsername: string | null;
+    linkedin: string | null;
     hireable: boolean | null;
     createdAt: string | null;
     updatedAt: string | null;

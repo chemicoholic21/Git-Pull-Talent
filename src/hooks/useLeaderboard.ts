@@ -8,9 +8,21 @@ export interface LeaderboardResponse {
   limit: number;
 }
 
-export function useLeaderboard(limit?: number, location?: string, page?: number, search?: string, category?: string, sortBy?: string, sortOrder?: string, hireable?: boolean) {
+export function useLeaderboard(
+  limit?: number,
+  location?: string,
+  page?: number,
+  search?: string,
+  category?: string,
+  sortBy?: string,
+  sortOrder?: string,
+  hireable?: boolean,
+  hasLinkedIn?: boolean,
+  hasX?: boolean,
+  hasEmail?: boolean
+) {
   return useQuery({
-    queryKey: ["leaderboard", limit, location, page, search, category, sortBy, sortOrder, hireable],
+    queryKey: ["leaderboard", limit, location, page, search, category, sortBy, sortOrder, hireable, hasLinkedIn, hasX, hasEmail],
     queryFn: async (): Promise<LeaderboardResponse> => {
       const params = new URLSearchParams();
       if (limit) params.set("limit", limit.toString());
@@ -20,7 +32,10 @@ export function useLeaderboard(limit?: number, location?: string, page?: number,
       if (category) params.set("category", category);
       if (sortBy) params.set("sortBy", sortBy);
       if (sortOrder) params.set("sortOrder", sortOrder);
-      if (hireable) params.set("hireable", "true");
+      if (hireable === true) params.set("hireable", "true");
+      if (hasLinkedIn === true) params.set("hasLinkedIn", "true");
+      if (hasX === true) params.set("hasX", "true");
+      if (hasEmail === true) params.set("hasEmail", "true");
       
       const url = `/api/leaderboard?${params.toString()}`;
       const res = await fetch(url);

@@ -30,6 +30,17 @@ export async function GET(request: NextRequest) {
         const rawData = await fetchUserAnalysis(username);
         const profile = computeScore(rawData);
 
+        // Extract LinkedIn from bio or blog
+        const extractLinkedIn = (bio: string | null, blog: string | null) => {
+          const linkedinRegex = /linkedin\.com\/in\/([a-zA-Z0-9_-]+)/i;
+          const bioMatch = bio?.match(linkedinRegex);
+          if (bioMatch) return bioMatch[0];
+          const blogMatch = blog?.match(linkedinRegex);
+          if (blogMatch) return blogMatch[0];
+          return null;
+        };
+        const linkedin = extractLinkedIn(rawData.user.bio, rawData.user.websiteUrl);
+
         // 3. Save to Redis
         await setRawAnalysis(username, rawData);
         await setCachedAnalysis(username, profile);
@@ -39,17 +50,29 @@ export async function GET(request: NextRequest) {
           id: username.toLowerCase(),
           username: rawData.user.name || username,
           totalScore: profile.totalScore,
+          aiScore: profile.aiScore,
+          backendScore: profile.backendScore,
+          frontendScore: profile.frontendScore,
+          devopsScore: profile.devopsScore,
+          dataScore: profile.dataScore,
+          uniqueSkillsJson: JSON.stringify(profile.uniqueSkills),
           topReposJson: JSON.stringify(profile.topRepositories),
           languagesJson: JSON.stringify(profile.languageBreakdown),
-          contributionCount: rawData.repos.reduce((sum, r) => sum + r.mergedPrsByUserCount, 0),
+          contributionCount: profile.contributionCount,
           cachedAt: new Date(),
         }).onConflictDoUpdate({
           target: analyses.id,
           set: {
             totalScore: profile.totalScore,
+            aiScore: profile.aiScore,
+            backendScore: profile.backendScore,
+            frontendScore: profile.frontendScore,
+            devopsScore: profile.devopsScore,
+            dataScore: profile.dataScore,
+            uniqueSkillsJson: JSON.stringify(profile.uniqueSkills),
             topReposJson: JSON.stringify(profile.topRepositories),
             languagesJson: JSON.stringify(profile.languageBreakdown),
-            contributionCount: rawData.repos.reduce((sum, r) => sum + r.mergedPrsByUserCount, 0),
+            contributionCount: profile.contributionCount,
             cachedAt: new Date(),
           },
         });
@@ -60,12 +83,19 @@ export async function GET(request: NextRequest) {
           avatarUrl: rawData.user.avatarUrl,
           url: rawData.user.url,
           totalScore: profile.totalScore,
+          aiScore: profile.aiScore,
+          backendScore: profile.backendScore,
+          frontendScore: profile.frontendScore,
+          devopsScore: profile.devopsScore,
+          dataScore: profile.dataScore,
+          uniqueSkillsJson: JSON.stringify(profile.uniqueSkills),
           company: rawData.user.company,
           blog: rawData.user.websiteUrl,
           location: rawData.user.location,
           email: rawData.user.email,
           bio: rawData.user.bio,
           twitterUsername: rawData.user.twitterUsername,
+          linkedin: linkedin,
           hireable: rawData.user.isHireable,
           createdAt: new Date(rawData.user.createdAt),
           updatedAt: new Date(),
@@ -76,12 +106,19 @@ export async function GET(request: NextRequest) {
             avatarUrl: rawData.user.avatarUrl,
             url: rawData.user.url,
             totalScore: profile.totalScore,
+            aiScore: profile.aiScore,
+            backendScore: profile.backendScore,
+            frontendScore: profile.frontendScore,
+            devopsScore: profile.devopsScore,
+            dataScore: profile.dataScore,
+            uniqueSkillsJson: JSON.stringify(profile.uniqueSkills),
             company: rawData.user.company,
             blog: rawData.user.websiteUrl,
             location: rawData.user.location,
             email: rawData.user.email,
             bio: rawData.user.bio,
             twitterUsername: rawData.user.twitterUsername,
+            linkedin: linkedin,
             hireable: rawData.user.isHireable,
             updatedAt: new Date(),
           },

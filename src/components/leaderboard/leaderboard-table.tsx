@@ -8,7 +8,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, ChevronRight, Mail, MapPin, Link as LinkIcon, Twitter, Building2, Calendar, Search, ArrowUpDown, Github, Filter, UserCheck } from "lucide-react";
+import { ChevronDown, ChevronRight, Mail, MapPin, Link as LinkIcon, Twitter, Building2, Calendar, Search, ArrowUpDown, Github, Filter, UserCheck, Linkedin, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,12 +45,16 @@ interface LeaderboardTableProps {
   onCategoryChange: (category: string) => void;
   onSortChange: (sortBy: string, sortOrder: string) => void;
   onHireableChange: (hireable: boolean) => void;
+  onContactFilterChange: (type: "hasLinkedIn" | "hasX" | "hasEmail", value: boolean) => void;
   search: string;
   location: string;
   category: string;
   sortBy: string;
   sortOrder: string;
   hireable: boolean;
+  hasLinkedIn: boolean;
+  hasX: boolean;
+  hasEmail: boolean;
   isLoading?: boolean;
 }
 
@@ -66,12 +70,16 @@ export function LeaderboardTable({
   onCategoryChange,
   onSortChange,
   onHireableChange,
+  onContactFilterChange,
   search,
   location,
   category,
   sortBy,
   sortOrder,
   hireable,
+  hasLinkedIn,
+  hasX,
+  hasEmail,
   isLoading
 }: LeaderboardTableProps) {
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -117,8 +125,13 @@ export function LeaderboardTable({
               <AvatarFallback>{entry.username.substring(0, 2).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col text-left">
-              <span className="font-semibold text-neutral-200 leading-none">{entry.name || entry.username}</span>
-              <span className="text-xs text-neutral-500 font-mono">@{entry.username}</span>
+              <span className="font-semibold text-neutral-200 leading-none mb-1">{entry.name || entry.username}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-neutral-500 font-mono mr-1">@{entry.username}</span>
+                {entry.email && <Mail className="h-3 w-3 text-neutral-600" />}
+                {entry.twitterUsername && <Twitter className="h-3 w-3 text-neutral-600" />}
+                {entry.linkedin && <Linkedin className="h-3 w-3 text-neutral-600" />}
+              </div>
             </div>
           </div>
         );
@@ -266,6 +279,56 @@ export function LeaderboardTable({
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="flex-1 md:flex-none bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white min-w-[180px] justify-between">
                 <span className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest">
+                  <Mail className="h-3.5 w-3.5" />
+                  CONTACT FILTERS
+                </span>
+                <ChevronDown className="h-4 w-4 opacity-50" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-neutral-900 border-neutral-800 text-neutral-200 min-w-[180px]">
+              <DropdownMenuItem 
+                className="flex items-center gap-2 focus:bg-neutral-800 cursor-pointer text-xs font-mono"
+                onClick={() => onContactFilterChange("hasLinkedIn", !hasLinkedIn)}
+              >
+                <div className={cn(
+                  "h-4 w-4 rounded border border-neutral-700 flex items-center justify-center transition-all",
+                  hasLinkedIn ? "bg-green-500 border-green-500" : "bg-neutral-950"
+                )}>
+                  {hasLinkedIn && <Check className="h-3 w-3 text-black" />}
+                </div>
+                Has LinkedIn
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="flex items-center gap-2 focus:bg-neutral-800 cursor-pointer text-xs font-mono"
+                onClick={() => onContactFilterChange("hasX", !hasX)}
+              >
+                <div className={cn(
+                  "h-4 w-4 rounded border border-neutral-700 flex items-center justify-center transition-all",
+                  hasX ? "bg-green-500 border-green-500" : "bg-neutral-950"
+                )}>
+                  {hasX && <Check className="h-3 w-3 text-black" />}
+                </div>
+                Has X (Twitter)
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                className="flex items-center gap-2 focus:bg-neutral-800 cursor-pointer text-xs font-mono"
+                onClick={() => onContactFilterChange("hasEmail", !hasEmail)}
+              >
+                <div className={cn(
+                  "h-4 w-4 rounded border border-neutral-700 flex items-center justify-center transition-all",
+                  hasEmail ? "bg-green-500 border-green-500" : "bg-neutral-950"
+                )}>
+                  {hasEmail && <Check className="h-3 w-3 text-black" />}
+                </div>
+                Has Email
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="flex-1 md:flex-none bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white min-w-[180px] justify-between">
+                <span className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest">
                   <Filter className="h-3.5 w-3.5" />
                   {category ? category : "ALL CATEGORIES"}
                 </span>
@@ -388,6 +451,18 @@ export function LeaderboardTable({
                                        onClick={(e) => e.stopPropagation()}
                                     >
                                       @{row.original.twitterUsername}
+                                    </a>
+                                  </div>
+                                )}
+                                {row.original.linkedin && (
+                                  <div className="flex items-center gap-3 text-neutral-400 group/item">
+                                    <Linkedin className="h-4 w-4 text-neutral-600 group-hover/item:text-blue-400 transition-colors" />
+                                    <a href={row.original.linkedin.startsWith('http') ? row.original.linkedin : `https://${row.original.linkedin}`} 
+                                       target="_blank" 
+                                       className="text-sm hover:text-blue-400 transition-colors"
+                                       onClick={(e) => e.stopPropagation()}
+                                    >
+                                      LinkedIn Profile
                                     </a>
                                   </div>
                                 )}

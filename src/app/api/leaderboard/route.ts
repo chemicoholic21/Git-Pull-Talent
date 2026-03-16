@@ -15,6 +15,9 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search");
     const category = searchParams.get("category");
     const hireable = searchParams.get("hireable") === "true";
+    const hasLinkedIn = searchParams.get("hasLinkedIn") === "true";
+    const hasX = searchParams.get("hasX") === "true";
+    const hasEmail = searchParams.get("hasEmail") === "true";
     const sortBy = searchParams.get("sortBy") || "totalScore";
     const sortOrder = searchParams.get("sortOrder") || "desc";
 
@@ -44,6 +47,15 @@ export async function GET(request: NextRequest) {
     }
     if (hireable) {
       filters.push(eq(leaderboard.hireable, true));
+    }
+
+    const contactFilters = [];
+    if (hasLinkedIn) contactFilters.push(sql`${leaderboard.linkedin} IS NOT NULL`);
+    if (hasX) contactFilters.push(sql`${leaderboard.twitterUsername} IS NOT NULL`);
+    if (hasEmail) contactFilters.push(sql`${leaderboard.email} IS NOT NULL`);
+
+    if (contactFilters.length > 0) {
+      filters.push(or(...contactFilters));
     }
     
     // If a category is selected, we might want to only show users with score > 0 in that category
@@ -90,10 +102,18 @@ export async function GET(request: NextRequest) {
 
     const data = topUsers.map((user, index) => {
       const { uniqueSkillsJson, ...rest } = user;
+      let uniqueSkills: string[] = [];
+      if (uniqueSkillsJson) {
+        try {
+          uniqueSkills = JSON.parse(uniqueSkillsJson);
+        } catch (e) {
+          console.error("Failed to parse uniqueSkillsJson", e);
+        }
+      }
       return {
         rank: offset + index + 1,
         ...rest,
-        uniqueSkills: uniqueSkillsJson || [],
+        uniqueSkills,
       };
     });
 

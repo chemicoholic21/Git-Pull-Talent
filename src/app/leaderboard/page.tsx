@@ -14,6 +14,9 @@ export default function LeaderboardPage() {
   const [sortBy, setSortBy] = useState("totalScore");
   const [sortOrder, setSortOrder] = useState("desc");
   const [hireable, setHireable] = useState(false);
+  const [hasLinkedIn, setHasLinkedIn] = useState(false);
+  const [hasX, setHasX] = useState(false);
+  const [hasEmail, setHasEmail] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(20);
 
@@ -49,6 +52,13 @@ export default function LeaderboardPage() {
     setPageIndex(0);
   };
 
+  const handleContactFilterChange = (type: "hasLinkedIn" | "hasX" | "hasEmail", value: boolean) => {
+    if (type === "hasLinkedIn") setHasLinkedIn(value);
+    if (type === "hasX") setHasX(value);
+    if (type === "hasEmail") setHasEmail(value);
+    setPageIndex(0);
+  };
+
   const { data, isLoading } = useLeaderboard(
     pageSize, 
     debouncedLocation, 
@@ -57,7 +67,10 @@ export default function LeaderboardPage() {
     category,
     sortBy,
     sortOrder,
-    hireable
+    hireable,
+    hasLinkedIn,
+    hasX,
+    hasEmail
   );
 
   return (
@@ -88,12 +101,16 @@ export default function LeaderboardPage() {
               onCategoryChange={handleCategoryChange}
               onSortChange={handleSortChange}
               onHireableChange={handleHireableChange}
+              onContactFilterChange={handleContactFilterChange}
               search={search}
               location={location}
               category={category}
               sortBy={sortBy}
               sortOrder={sortOrder}
               hireable={hireable}
+              hasLinkedIn={hasLinkedIn}
+              hasX={hasX}
+              hasEmail={hasEmail}
               isLoading={isLoading}
             />
           )}
