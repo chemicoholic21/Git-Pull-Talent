@@ -16,7 +16,8 @@ import {
 import Link from "next/link";
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
 import { SkillBreakdown } from "@/components/SkillBreakdown";
-import { Linkedin, Twitter, Globe, Mail, MapPin, Building2 } from "lucide-react";
+import { Linkedin, Twitter, Globe, Mail, MapPin, Building2, Github, Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const EXPERIENCE_COLORS = {
   Newcomer: "text-gray-500 border-white/5 bg-white/5",
@@ -155,6 +156,19 @@ export default function UserProfile({ username }: { username: string }) {
                   LinkedIn
                 </a>
               )}
+              {profile.user.email && (
+                <a href={`mailto:${profile.user.email}`}
+                   className="flex items-center gap-2 hover:text-yellow-400 transition-colors">
+                  <Mail className="h-3.5 w-3.5 text-gray-600" />
+                  {profile.user.email}
+                </a>
+              )}
+              {profile.user.createdAt && (
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-3.5 w-3.5 text-gray-600" />
+                  Joined {new Date(profile.user.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
+                </div>
+              )}
             </div>
             
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-8 text-[10px] tracking-[0.2em] uppercase font-bold text-gray-600">
@@ -164,7 +178,18 @@ export default function UserProfile({ username }: { username: string }) {
               <span className="flex items-center gap-2">
                 <span className="text-white text-base font-serif">{profile.user.following}</span> Following
               </span>
+              <span className="flex items-center gap-2">
+                <span className="text-white text-base font-serif">{profile.contributionCount}</span> Merged PRs
+              </span>
               <div className="h-4 w-px bg-white/5 hidden md:block" />
+              <a
+                href={profile.user.url || `https://github.com/${username}`}
+                target="_blank"
+                className="flex items-center gap-2 hover:text-white transition-all border-b border-white/5 pb-1 hover:border-white"
+              >
+                <Github className="h-3.5 w-3.5" />
+                View GitHub
+              </a>
               <button
                 onClick={copyToClipboard}
                 className="hover:text-white transition-all border-b border-white/5 pb-1 hover:border-white"
@@ -178,6 +203,16 @@ export default function UserProfile({ username }: { username: string }) {
                 Recalibrate
               </button>
             </div>
+
+            {profile.uniqueSkills && profile.uniqueSkills.length > 0 && (
+              <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-8">
+                {profile.uniqueSkills.map((skill) => (
+                  <Badge key={skill} variant="outline" className="bg-white/5 border-white/10 text-gray-400 font-mono text-[10px] lowercase px-2 py-0.5">
+                    {skill}
+                  </Badge>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="md:text-right flex flex-col items-center md:items-end pt-4">
