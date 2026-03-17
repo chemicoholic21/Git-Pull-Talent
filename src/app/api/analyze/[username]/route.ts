@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { checkRateLimit, getCachedAnalysis, setCachedAnalysis, getRawAnalysis, setRawAnalysis } from "@/lib/redis";
-import { fetchUserAnalysis } from "@/lib/github";
+import { fetchUserAnalysis, extractLinkedIn } from "@/lib/github";
 import { computeScore } from "@/lib/scoring";
 import { db } from "@/lib/db";
 import { analyses, leaderboard } from "@/lib/schema";
@@ -61,16 +61,12 @@ export async function GET(
     // 6. Compute score
     const profile = computeScore(rawData);
 
-    // Extract LinkedIn from bio or blog
-    const extractLinkedIn = (bio: string | null, blog: string | null) => {
-      const linkedinRegex = /linkedin\.com\/in\/([a-zA-Z0-9_-]+)/i;
-      const bioMatch = bio?.match(linkedinRegex);
-      if (bioMatch) return bioMatch[0];
-      const blogMatch = blog?.match(linkedinRegex);
-      if (blogMatch) return blogMatch[0];
-      return null;
-    };
-    const linkedin = extractLinkedIn(rawData.user.bio, rawData.user.websiteUrl);
+    // Fallback for cached rawData that might not have linkedin field
+    if (!rawData.user.linkedin) {
+      rawData.user.linkedin = extractLinkedIn(rawData.user.socialAccounts, rawData.user.bio, rawData.user.websiteUrl);
+    }
+    const linkedin = rawData.user.linkedin;
+    profile.user.linkedin = linkedin;
 
     // 7. Store in Redis cache (scored)
     await setCachedAnalysis(username, profile);
@@ -88,6 +84,7 @@ export async function GET(
         devopsScore: profile.devopsScore,
         dataScore: profile.dataScore,
         uniqueSkillsJson: JSON.stringify(profile.uniqueSkills),
+        linkedin: linkedin,
         topReposJson: JSON.stringify(profile.topRepositories),
         languagesJson: JSON.stringify(profile.languageBreakdown),
         contributionCount: profile.contributionCount,
@@ -103,6 +100,7 @@ export async function GET(
           devopsScore: profile.devopsScore,
           dataScore: profile.dataScore,
           uniqueSkillsJson: JSON.stringify(profile.uniqueSkills),
+          linkedin: linkedin,
           topReposJson: JSON.stringify(profile.topRepositories),
           languagesJson: JSON.stringify(profile.languageBreakdown),
           contributionCount: profile.contributionCount,

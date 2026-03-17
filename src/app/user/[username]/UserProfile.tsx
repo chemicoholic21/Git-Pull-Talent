@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import ProfileSkeleton from "@/components/skeletons/ProfileSkeleton";
 import { SkillBreakdown } from "@/components/SkillBreakdown";
+import { Linkedin, Twitter, Globe, Mail, MapPin, Building2 } from "lucide-react";
 
 const EXPERIENCE_COLORS = {
   Newcomer: "text-gray-500 border-white/5 bg-white/5",
@@ -116,6 +117,45 @@ export default function UserProfile({ username }: { username: string }) {
             <p className="text-xl text-gray-500 mb-8 max-w-2xl leading-relaxed italic">
               &ldquo;{profile.user.bio || "No biography provided for this identity."}&rdquo;
             </p>
+
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-8 gap-y-4 mb-10 text-xs text-gray-400 font-mono tracking-wider">
+              {profile.user.location && (
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-3.5 w-3.5 text-gray-600" />
+                  {profile.user.location}
+                </div>
+              )}
+              {profile.user.company && (
+                <div className="flex items-center gap-2">
+                  <Building2 className="h-3.5 w-3.5 text-gray-600" />
+                  {profile.user.company}
+                </div>
+              )}
+              {profile.user.websiteUrl && (
+                <a href={profile.user.websiteUrl.startsWith('http') ? profile.user.websiteUrl : `https://${profile.user.websiteUrl}`} 
+                   target="_blank" 
+                   className="flex items-center gap-2 hover:text-white transition-colors">
+                  <Globe className="h-3.5 w-3.5 text-gray-600" />
+                  {profile.user.websiteUrl.replace(/^https?:\/\//, '')}
+                </a>
+              )}
+              {profile.user.twitterUsername && (
+                <a href={`https://twitter.com/${profile.user.twitterUsername}`} 
+                   target="_blank" 
+                   className="flex items-center gap-2 hover:text-sky-400 transition-colors">
+                  <Twitter className="h-3.5 w-3.5 text-gray-600" />
+                  @{profile.user.twitterUsername}
+                </a>
+              )}
+              {profile.user.linkedin && (
+                <a href={profile.user.linkedin.startsWith('http') ? profile.user.linkedin : `https://${profile.user.linkedin}`} 
+                   target="_blank" 
+                   className="flex items-center gap-2 hover:text-blue-400 transition-colors">
+                  <Linkedin className="h-3.5 w-3.5 text-gray-600" />
+                  LinkedIn
+                </a>
+              )}
+            </div>
             
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-8 text-[10px] tracking-[0.2em] uppercase font-bold text-gray-600">
               <span className="flex items-center gap-2">

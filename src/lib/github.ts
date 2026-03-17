@@ -30,6 +30,12 @@ interface UserAnalysisResponse extends RateLimitFragment {
     location: string | null;
     email: string;
     twitterUsername: string | null;
+    socialAccounts: {
+      nodes: Array<{
+        provider: string;
+        url: string;
+      }>;
+    };
 
     repositories: {
       nodes: Array<{
@@ -93,6 +99,31 @@ function getClient(token: string) {
 }
 
 // ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Extract LinkedIn URL from social accounts, bio or website
+ */
+export const extractLinkedIn = (
+  socialAccounts: Array<{ provider: string; url: string }> | undefined,
+  bio: string | null,
+  websiteUrl: string | null
+) => {
+  // 1. Check social accounts
+  const linkedInAccount = socialAccounts?.find(account => account.provider === 'LINKEDIN');
+  if (linkedInAccount) return linkedInAccount.url;
+
+  // 2. Fallback to regex in bio or website
+  const linkedinRegex = /linkedin\.com\/in\/([a-zA-Z0-9_-]+)/i;
+  const bioMatch = bio?.match(linkedinRegex);
+  if (bioMatch) return bioMatch[0];
+  const websiteMatch = websiteUrl?.match(linkedinRegex);
+  if (websiteMatch) return websiteMatch[0];
+  return null;
+};
+
+// ---------------------------------------------------------------------------
 // Main function
 // ---------------------------------------------------------------------------
 
@@ -115,6 +146,12 @@ const USER_ANALYSIS_QUERY = `
       location
       email
       twitterUsername
+      socialAccounts(first: 10) {
+        nodes {
+          provider
+          url
+        }
+      }
       repositories(
         first: 50
         orderBy: { field: STARGAZERS, direction: DESC }
@@ -297,6 +334,8 @@ export async function fetchUserAnalysis(
       location: user.location,
       email: user.email,
       twitterUsername: user.twitterUsername,
+      linkedin: extractLinkedIn(user.socialAccounts.nodes, user.bio, user.websiteUrl),
+      socialAccounts: user.socialAccounts.nodes,
     },
     repos,
   };

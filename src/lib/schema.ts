@@ -10,6 +10,7 @@ export const analyses = pgTable("analyses", {
     devopsScore: real("devops_score").default(0),
     dataScore: real("data_score").default(0),
     uniqueSkillsJson: text("unique_skills_json"),
+    linkedin: text("linkedin"),
     topReposJson: text("top_repos_json"),
     languagesJson: text("languages_json"),
     contributionCount: integer("contribution_count"),

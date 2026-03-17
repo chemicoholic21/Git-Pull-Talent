@@ -17,6 +17,11 @@ export interface RawGitHubData {
         location: string | null;
         email: string | null;
         twitterUsername: string | null;
+        linkedin?: string | null;
+        socialAccounts?: Array<{
+            provider: string;
+            url: string;
+        }>;
     };
     repos: Array<{
         name: string;

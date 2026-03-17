@@ -128,9 +128,21 @@ export function LeaderboardTable({
               <span className="font-semibold text-neutral-200 leading-none mb-1">{entry.name || entry.username}</span>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-neutral-500 font-mono mr-1">@{entry.username}</span>
-                {entry.email && <Mail className="h-3 w-3 text-neutral-600" />}
-                {entry.twitterUsername && <Twitter className="h-3 w-3 text-neutral-600" />}
-                {entry.linkedin && <Linkedin className="h-3 w-3 text-neutral-600" />}
+                {entry.email && (
+                  <a href={`mailto:${entry.email}`} onClick={e => e.stopPropagation()} title="Email" className="text-neutral-600 hover:text-yellow-400 transition-colors">
+                    <Mail className="h-3 w-3" />
+                  </a>
+                )}
+                {entry.twitterUsername && (
+                  <a href={`https://twitter.com/${entry.twitterUsername}`} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} title="Twitter" className="text-neutral-600 hover:text-cyan-400 transition-colors">
+                    <Twitter className="h-3 w-3" />
+                  </a>
+                )}
+                {entry.linkedin && (
+                  <a href={entry.linkedin.startsWith('http') ? entry.linkedin : `https://${entry.linkedin}`} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} title="LinkedIn" className="text-neutral-600 hover:text-blue-400 transition-colors">
+                    <Linkedin className="h-3 w-3" />
+                  </a>
+                )}
               </div>
             </div>
           </div>
