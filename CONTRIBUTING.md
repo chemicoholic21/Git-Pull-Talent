@@ -1,11 +1,11 @@
 # Contributing to Git Pull Talent
 
-First off, thank you for considering contributing to GitPulse! It's people like you that make GitPulse a great tool for the open-source community.
+First off, thank you for considering contributing to Git Pull Talent! It's people like you that make Git Pull Talent a great tool for the open-source community.
 
 ---
 
 ## 🏗️ Project Goal
-GitPulse is a public GitHub analytics platform that computes a **contribution importance score** for any GitHub user. The goal is to surface meaningful developer insights by weighting contributions based on project popularity and personal impact.
+Git Pull Talent is a public GitHub analytics platform that computes a **contribution importance score** for any GitHub user. The goal is to surface meaningful developer insights by weighting contributions based on project popularity and personal impact.
 
 ---
 

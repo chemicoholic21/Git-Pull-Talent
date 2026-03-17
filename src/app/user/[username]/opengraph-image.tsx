@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { deriveExperienceLevel } from "@/lib/scoring";
 
 export const runtime = "edge";
-export const alt = "GitPulse User Profile";
+export const alt = "Git Pull Talent User Profile";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -59,7 +59,7 @@ export default async function Image({
               borderRadius: "4px",
             }}
           />
-          <span style={{ fontSize: "24px", fontWeight: "bold", color: "white", letterSpacing: "-1px" }}>GitPulse</span>
+          <span style={{ fontSize: "24px", fontWeight: "bold", color: "white", letterSpacing: "-1px" }}>Git Pull Talent</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>

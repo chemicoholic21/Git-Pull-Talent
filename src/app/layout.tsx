@@ -14,14 +14,14 @@ export const metadata: Metadata = {
   title: "GPT - Git Pull Talent",
   description: "Score your open source impact. See where your GitHub contributions truly matter.",
   openGraph: {
-    title: "GitPulse — GitHub Contribution Analytics",
+    title: "Git Pull Talent — GitHub Contribution Analytics",
     description: "Score your open source impact. See where your GitHub contributions truly matter.",
     images: ["/og-image.png"],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "GitPulse — GitHub Contribution Analytics",
+    title: "Git Pull Talent — GitHub Contribution Analytics",
     description: "Score your open source impact. See where your GitHub contributions truly matter.",
     images: ["/og-image.png"],
   },

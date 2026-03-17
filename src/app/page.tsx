@@ -111,7 +111,7 @@ export default function HomePage() {
                 <span className="italic text-white/80">contribution graph.</span>
               </h2>
               <p className="text-xl text-gray-500 mb-12 leading-relaxed">
-                GitPulse employs advanced weighted algorithms to determine the mathematical significance of your work 
+                Git Pull Talent employs advanced weighted algorithms to determine the mathematical significance of your work 
                 within the global open source fabric.
               </p>
               <div className="flex gap-8">
@@ -216,7 +216,7 @@ export default function HomePage() {
             <Link href="#" className="text-xs tracking-widest uppercase font-bold text-gray-600 hover:text-white transition-all">Privacy</Link>
           </div>
           <p className="text-gray-700 text-[10px] tracking-[0.4em] uppercase font-bold">
-            GitPulse Protocol • Powered by <span className="text-gray-400">Next.js</span> & <span className="text-gray-400">Neon</span>
+            Git Pull Talent Protocol • Powered by <span className="text-gray-400">Next.js</span> & <span className="text-gray-400">Neon</span>
           </p>
         </div>
       </footer>

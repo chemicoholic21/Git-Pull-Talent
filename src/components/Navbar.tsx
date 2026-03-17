@@ -13,8 +13,8 @@ export default function Navbar() {
         <div className="flex items-center gap-12">
           <Link href="/" className="flex items-center group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icon.png" alt="GitPulse" width={120} height={120} className="group-hover:scale-110 transition-all duration-500 drop-shadow-lg" />
-            <span className="text-white font-serif text-2xl tracking-tight -ml-4">GitPulse</span>
+            <img src="/icon.png" alt="Git Pull Talent" width={120} height={120} className="group-hover:scale-110 transition-all duration-500 drop-shadow-lg" />
+            <span className="text-white font-serif text-2xl tracking-tight -ml-4">Git Pull Talent</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-10">

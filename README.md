@@ -1,11 +1,11 @@
 
-# GitPulse
+# Git Pull Talent
 
 **Project Intelligence for Open Source Contributors**
 
-GitPulse computes a *contribution importance score* for any GitHub user — a single number that reflects not just how much someone contributes, but how much it *matters*. It works by analyzing merged pull requests across open source repositories and weighting them by the influence of those projects.
+Git Pull Talent computes a *contribution importance score* for any GitHub user — a single number that reflects not just how much someone contributes, but how much it *matters*. It works by analyzing merged pull requests across open source repositories and weighting them by the influence of those projects.
 
-Standard GitHub profiles show activity. GitPulse shows impact.
+Standard GitHub profiles show activity. Git Pull Talent shows impact.
 
 ---
 
@@ -33,7 +33,7 @@ A PR merged into a 40,000-star repo counts for more than ten merged into project
 
 ## Stack
 
-GitPulse is built on Next.js 14/15 (App Router) with a dark terminal aesthetic.
+Git Pull Talent is built on Next.js 14/15 (App Router) with a dark terminal aesthetic.
 
 - **Database** — Neon (serverless Postgres) via Drizzle ORM
 - **Cache & rate limiting** — Upstash Redis
