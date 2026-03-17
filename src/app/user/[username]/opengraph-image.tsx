@@ -106,7 +106,7 @@ export default async function Image({
             fontWeight: "bold",
           }}
         >
-          gitpulse.vercel.app
+          gitpulltalent.vercel.app
         </div>
       </div>
     ),

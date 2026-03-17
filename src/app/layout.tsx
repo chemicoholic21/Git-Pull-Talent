@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXTAUTH_URL || "https://gitpulse-one.vercel.app/"),
+  metadataBase: new URL(process.env.NEXTAUTH_URL || "https://gitpulltalent.vercel.app/"),
   title: "GPT - Git Pull Talent",
   description: "Score your open source impact. See where your GitHub contributions truly matter.",
   openGraph: {

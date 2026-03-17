@@ -50,8 +50,8 @@ Git Pull Talent is built on Next.js 14/15 (App Router) with a dark terminal aest
 **1. Clone and install**
 
 ```bash
-git clone https://github.com/chemicoholic21/gitpulse.git
-cd gitpulse
+git clone https://github.com/chemicoholic21/gitpulltalent.git
+cd gitpulltalent
 npm install
 ```
 
@@ -107,8 +107,8 @@ Create a Redis database and copy the `REST_URL` and `REST_TOKEN`. You can option
 
 Go to *Settings → Developer Settings → OAuth Apps* and create a new app:
 
-- Homepage URL: `https://gitpulse-one.vercel.app`
-- Callback URL: `https://gitpulse-one.vercel.app/api/auth/callback/github`
+- Homepage URL: `https://gitpulltalent.vercel.app`
+- Callback URL: `https://gitpulltalent.vercel.app/api/auth/callback/github`
 
 **Vercel**
 

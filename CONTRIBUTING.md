@@ -20,8 +20,8 @@ Git Pull Talent is a public GitHub analytics platform that computes a **contribu
 ### Local Setup
 1. **Fork and clone:**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/gitpulse.git
-   cd gitpulse
+   git clone https://github.com/YOUR_USERNAME/gitpulltalent.git
+   cd gitpulltalent
    npm install
    ```
 
