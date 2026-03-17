@@ -9,15 +9,12 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-[100] border-b border-white/5 bg-[#0d1117]/80 backdrop-blur-xl">
-      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+      <div className="container mx-auto px-6 h-24 flex items-center justify-between">
         <div className="flex items-center gap-12">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-all duration-500 shadow-2xl shadow-white/20">
-              <svg className="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <span className="text-white font-serif text-2xl tracking-tight">GitPulse</span>
+          <Link href="/" className="flex items-center group">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icon.png" alt="GitPulse" width={120} height={120} className="group-hover:scale-110 transition-all duration-500 drop-shadow-lg" />
+            <span className="text-white font-serif text-2xl tracking-tight -ml-4">GitPulse</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-10">
@@ -55,7 +52,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-20 left-0 right-0 bg-[#0d1117]/95 border-b border-white/5 backdrop-blur-xl flex flex-col items-center py-6 gap-6 shadow-2xl">
+        <div className="md:hidden absolute top-24 left-0 right-0 bg-[#0d1117]/95 border-b border-white/5 backdrop-blur-xl flex flex-col items-center py-6 gap-6 shadow-2xl">
           <Link href="/" onClick={() => setIsOpen(false)} className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 hover:text-white transition-all">
             Identity
           </Link>
