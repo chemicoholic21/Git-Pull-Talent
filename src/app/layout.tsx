@@ -11,7 +11,7 @@ const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL || "https://gitpulse-one.vercel.app/"),
-  title: "GitPulse — GitHub Contribution Analytics",
+  title: "GPT - Git Pull Talent",
   description: "Score your open source impact. See where your GitHub contributions truly matter.",
   openGraph: {
     title: "GitPulse — GitHub Contribution Analytics",

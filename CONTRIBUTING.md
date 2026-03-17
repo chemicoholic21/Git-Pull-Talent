@@ -1,4 +1,4 @@
-# Contributing to GitPulse
+# Contributing to Git Pull Talent
 
 First off, thank you for considering contributing to GitPulse! It's people like you that make GitPulse a great tool for the open-source community.
 
