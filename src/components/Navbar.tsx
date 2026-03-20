@@ -11,13 +11,13 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-[100] border-b border-white/5 bg-[#0d1117]/80 backdrop-blur-xl">
       <div className="container mx-auto px-6 h-24 flex items-center justify-between">
         <div className="flex items-center gap-12">
-          <Link href="/" className="flex items-center group">
+          <Link href="/" className="flex items-center group shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icon.png" alt="Git Pull Talent" width={120} height={120} className="group-hover:scale-110 transition-all duration-500 drop-shadow-lg" />
-            <span className="text-white font-serif text-2xl tracking-tight -ml-4">Git Pull Talent</span>
+            <img src="/icon.png" alt="Git Pull Talent" width={120} height={120} className="w-16 lg:w-[120px] h-auto group-hover:scale-110 transition-all duration-500 drop-shadow-lg" />
+            <span className="text-white font-serif text-lg lg:text-2xl tracking-tight -ml-2 lg:-ml-4 whitespace-nowrap">Git Pull Talent</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden lg:flex items-center gap-10">
             <Link href="/" className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 hover:text-white transition-all">
               Identity
             </Link>
@@ -30,13 +30,13 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
            <AuthButton />
         </div>
 
         {/* Mobile Hamburger Button */}
         <button
-          className="md:hidden text-white focus:outline-none p-2"
+          className="lg:hidden text-white focus:outline-none p-2"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
         >
@@ -52,7 +52,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-24 left-0 right-0 bg-[#0d1117]/95 border-b border-white/5 backdrop-blur-xl flex flex-col items-center py-6 gap-6 shadow-2xl">
+        <div className="lg:hidden absolute top-24 left-0 right-0 bg-[#0d1117]/95 border-b border-white/5 backdrop-blur-xl flex flex-col items-center py-6 gap-6 shadow-2xl">
           <Link href="/" onClick={() => setIsOpen(false)} className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 hover:text-white transition-all">
             Identity
           </Link>

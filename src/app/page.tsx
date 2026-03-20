@@ -24,7 +24,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#0d1117] text-gray-400 selection:bg-sky-500/30">
       {/* Cinematic Hero Section */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-20 pb-32 px-4 overflow-hidden">
+      <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-32 md:pt-40 pb-32 px-4 overflow-hidden">
         {/* Atmospheric Blurs */}
         <div className="atmospheric-blur top-[-10%] left-[-10%] opacity-20 animate-pulse" />
         <div className="atmospheric-blur bottom-[-20%] right-[-10%] bg-purple-500/10 opacity-20" />
