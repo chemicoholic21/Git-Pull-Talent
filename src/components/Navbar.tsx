@@ -27,6 +27,9 @@ export default function Navbar() {
             <Link href="/leaderboard" className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 hover:text-white transition-all">
               Leaderboard
             </Link>
+            <Link href="/trending" className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 hover:text-white transition-all">
+              Trending
+            </Link>
           </div>
         </div>
 
@@ -61,6 +64,9 @@ export default function Navbar() {
           </Link>
           <Link href="/leaderboard" onClick={() => setIsOpen(false)} className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 hover:text-white transition-all">
             Leaderboard
+          </Link>
+          <Link href="/trending" onClick={() => setIsOpen(false)} className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 hover:text-white transition-all">
+            Trending
           </Link>
           <div className="pt-4 border-t border-white/10 w-full flex justify-center">
             <AuthButton />
