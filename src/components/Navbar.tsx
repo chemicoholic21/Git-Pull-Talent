@@ -30,6 +30,9 @@ export default function Navbar() {
             <Link href="/trending" className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 hover:text-white transition-all">
               Trending
             </Link>
+            <Link href="https://github.com/search?q=label%3A%22good%20first%20issue%22%20is%3Aissue%20is%3Aopen&type=issues" target="_blank" className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 hover:text-white transition-all">
+              Issues
+            </Link>
           </div>
         </div>
 
@@ -67,6 +70,9 @@ export default function Navbar() {
           </Link>
           <Link href="/trending" onClick={() => setIsOpen(false)} className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 hover:text-white transition-all">
             Trending
+          </Link>
+          <Link href="https://github.com/search?q=label%3A%22good%20first%20issue%22%20is%3Aissue%20is%3Aopen&type=issues" target="_blank" onClick={() => setIsOpen(false)} className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 hover:text-white transition-all">
+            Issues
           </Link>
           <div className="pt-4 border-t border-white/10 w-full flex justify-center">
             <AuthButton />
