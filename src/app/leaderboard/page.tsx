@@ -90,18 +90,18 @@ export default function LeaderboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-200 py-24 px-6">
-      <div className="container mx-auto max-w-6xl">
+    <div className="min-h-screen layout-grid border-x border-white/5 border-dashed">
+      <div className="container mx-auto px-6 pt-32 pb-24">
         <div className="mb-12 space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
+          <h1 className="dev-heading text-4xl md:text-5xl">
             Developer Leaderboard
           </h1>
-          <p className="text-lg text-gray-400 max-w-2xl leading-relaxed">
+          <p className="text-lg text-slate-400 max-w-2xl leading-relaxed">
             Discover the most impactful open-source contributors based on their merged pull requests and project influence.
           </p>
         </div>
 
-        <div className="bg-gray-900/30 border border-gray-800 rounded-xl p-4 md:p-8 backdrop-blur-sm">
+        <div className="dev-surface p-4 md:p-8">
           {isLoading && !data ? (
             <LeaderboardSkeleton />
           ) : (
@@ -134,15 +134,15 @@ export default function LeaderboardPage() {
           )}
         </div>
 
-        <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-gray-600  uppercase tracking-[0.3em] border-t border-gray-800 pt-8">
+        <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-slate-600 uppercase tracking-[0.3em] border-t border-white/5 pt-8">
           <div>Updated every 6 hours • Server Time: {new Date().toLocaleTimeString()}</div>
           <div className="flex gap-8">
             <span className="flex items-center gap-2">
-              <div className="h-1 w-1 rounded-full bg-green-500" />
+              <div className="h-1 w-1 rounded-full bg-[#00F5A0]" />
               Score Cap: 10,000
             </span>
             <span className="flex items-center gap-2">
-              <div className="h-1 w-1 rounded-full bg-sky-500" />
+              <div className="h-1 w-1 rounded-full bg-[#00D9F5]" />
               Min Stars: 10
             </span>
           </div>

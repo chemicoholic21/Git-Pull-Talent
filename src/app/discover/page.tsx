@@ -64,88 +64,101 @@ export default function DiscoverPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-200 py-24 px-6">
-      <div className="container mx-auto max-w-4xl">
-        <div className="mb-12 space-y-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
-            Discover Talent
+    <div className="min-h-screen bg-[#0b0f1a] text-slate-300 py-40 px-6 grid-background">
+      <div className="grain-overlay opacity-[0.02]" />
+      <div className="container mx-auto max-w-5xl">
+        <div className="mb-20 space-y-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="inline-block px-4 py-1 rounded-sm bg-[#00F5A0]/10 border border-[#00F5A0]/20 mb-6">
+            <span className="text-[#00F5A0] text-[10px] tracking-[0.4em] uppercase font-black">Talent Identification</span>
+          </div>
+          <h1 className="editorial-heading text-5xl md:text-7xl">
+            Discover <span className="neon-gradient-text italic">Talent</span>
           </h1>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Find developers directly from GitHub by location. Add them to your leaderboard instantly.
+          <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed font-light">
+            Surveil global sub-networks for high-impact engineers by geographical coordinates.
           </p>
         </div>
 
-        <form onSubmit={handleSearch} className="mb-12 flex flex-col sm:flex-row gap-4 max-w-xl mx-auto relative">
-          <div className="relative flex-1 w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
-            <Input
-              type="text"
-              placeholder="Enter location (e.g. San Francisco, London)"
- className="pl-10 h-12 bg-gray-900 border-gray-800 text-lg focus:border-green-400/50 transition-colors"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
+        <form onSubmit={handleSearch} className="mb-24 relative max-w-2xl mx-auto group animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+          <div className="absolute -inset-1 bg-gradient-to-r from-[#00F5A0] to-[#00D9F5] rounded-2xl blur opacity-10 group-hover:opacity-30 transition duration-1000" />
+          <div className="relative flex flex-col sm:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+              <Input
+                type="text"
+                placeholder="GEOGRAPHIC_NODE (e.g. London, Tokyo)"
+                className="pl-12 h-16 bg-[#1a2236]/80 border-white/10 text-[10px] font-black tracking-widest uppercase text-white placeholder-slate-700 focus:border-[#00F5A0]/50 transition-all backdrop-blur-xl rounded-xl"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
+            <Button type="submit" className="neon-gradient-bg text-[#0b0f1a] font-black h-16 px-12 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest text-xs neon-glow">
+              Initialize Search
+            </Button>
           </div>
-          <Button type="submit" size="lg" className="bg-green-600 hover:bg-green-700 h-12 px-8">
-            Search
-          </Button>
         </form>
 
         {isLoading && (
-          <div className="flex justify-center py-20">
-            <Loader2 className="h-12 w-12 animate-spin text-green-500" />
+          <div className="flex flex-col items-center justify-center py-40 gap-8 animate-pulse">
+            <div className="h-16 w-16 border-4 border-[#00F5A0]/20 border-t-[#00F5A0] rounded-full animate-spin neon-glow" />
+            <p className="text-slate-600 font-black text-[10px] tracking-[0.5em] uppercase">Scanning Network Nodes...</p>
           </div>
         )}
 
         {error && (
-          <div className="text-center py-10 text-red-400 bg-red-900/10 rounded-lg border border-red-900/20 px-6">
-            <AlertCircle className="h-8 w-8 mx-auto mb-2" />
-            <p>{error instanceof Error ? error.message :"Failed to load users. Please try again."}</p>
+          <div className="text-center py-20 cinematic-card border-red-500/20 bg-red-500/5 px-8">
+            <AlertCircle className="h-10 w-10 mx-auto mb-6 text-red-500" />
+            <p className="text-red-400 font-black text-[10px] tracking-[0.3em] uppercase">
+              {error instanceof Error ? error.message : "NETWORK_FAILURE: SEARCH_INTERRUPTED"}
+            </p>
           </div>
         )}
 
         {data && (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center text-sm text-gray-500  uppercase tracking-widest px-2">
-              <span>{data.totalCount.toLocaleString()} Developers Found</span>
-              <span>Page {page}</span>
+          <div className="space-y-12 animate-in fade-in duration-1000">
+            <div className="flex justify-between items-center text-[10px] text-slate-600 font-black uppercase tracking-[0.4em] px-4">
+              <span>{data.totalCount.toLocaleString()} NODES_DETECTED</span>
+              <span className="text-[#00F5A0]">PAGE_{page}</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {data.results.map((user) => (
                 <div 
                   key={user.username}
- className="group flex items-center justify-between p-4 bg-gray-900/50 border border-gray-800 rounded-lg hover:border-gray-700 transition-all"
+                  className="cinematic-card p-8 flex items-center justify-between group"
                 >
-                  <div className="flex items-center gap-4">
-                    <Avatar className="h-12 w-12 border border-gray-800">
-                      <AvatarImage src={`https://github.com/${user.username}.png`} />
-                      <AvatarFallback>{user.username.slice(0, 2).toUpperCase()}</AvatarFallback>
-                    </Avatar>
+                  <div className="flex items-center gap-6">
+                    <div className="relative">
+                      <div className="absolute -inset-1 bg-[#00F5A0]/10 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Avatar className="h-14 w-14 border-2 border-white/5 relative">
+                        <AvatarImage src={`https://github.com/${user.username}.png`} className="grayscale group-hover:grayscale-0 transition-all duration-500" />
+                        <AvatarFallback className="bg-[#1a2236] text-white font-black">{user.username.slice(0, 2).toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                    </div>
                     <div>
-                      <div className="font-semibold text-white group-hover:text-green-400 transition-colors">
+                      <div className="text-xl font-bold text-white group-hover:text-[#00F5A0] transition-colors tracking-tight">
                         {user.username}
                       </div>
-                      <div className="text-sm text-gray-500 ">
-                        {user.status ==="analyzed" ? (
-                          <span className="text-green-400/80">Score: {user.score?.toFixed(0)}</span>
+                      <div className="text-[9px] font-black uppercase tracking-widest mt-1">
+                        {user.status === "analyzed" ? (
+                          <span className="text-[#00F5A0]">MAGNITUDE: {user.score?.toFixed(1)}</span>
                         ) : (
-"Not ranked"
+                          <span className="text-slate-600">UNRANKED_NODE</span>
                         )}
                       </div>
                     </div>
                   </div>
 
-                  {user.status ==="analyzed" ? (
-                    <Badge variant="outline" className="border-green-900 text-green-400 bg-green-900/20">
-                      <CheckCircle2 className="h-3 w-3 mr-1" />
-                      Ranked
-                    </Badge>
+                  {user.status === "analyzed" ? (
+                    <div className="bg-[#00F5A0]/10 text-[#00F5A0] px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest border border-[#00F5A0]/20 flex items-center gap-2">
+                      <CheckCircle2 className="h-3 w-3" />
+                      RANKED
+                    </div>
                   ) : (
                     <Button 
                       size="sm" 
                       variant="ghost" 
- className="text-gray-400 hover:text-white hover:bg-gray-800"
+                      className="h-12 px-6 glass-effect text-slate-500 hover:text-white rounded-xl text-[9px] font-black uppercase tracking-widest border border-white/5 hover:border-[#00F5A0]/30 transition-all group/btn"
                       disabled={analyzeMutation.isPending && analyzeMutation.variables === user.username}
                       onClick={() => analyzeMutation.mutate(user.username)}
                     >
@@ -153,8 +166,8 @@ export default function DiscoverPage() {
                         <Loader2 className="h-4 w-4 animate-spin" />
                       ) : (
                         <>
-                          <PlusCircle className="h-4 w-4 mr-2" />
-                          Analyze
+                          <PlusCircle className="h-4 w-4 mr-2 group-hover/btn:scale-110 transition-transform" />
+                          ANALYZE
                         </>
                       )}
                     </Button>
@@ -163,25 +176,27 @@ export default function DiscoverPage() {
               ))}
             </div>
 
-            <div className="flex justify-center gap-4 pt-8">
+            <div className="flex justify-center items-center gap-12 pt-12">
               <Button 
                 variant="outline" 
+                className="h-14 px-10 glass-effect border-white/5 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-all disabled:opacity-20"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1 || isLoading}
               >
-                Previous
+                &larr; PREV_CHUNK
               </Button>
               <Button 
                 variant="outline" 
+                className="h-14 px-10 glass-effect border-white/5 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-all disabled:opacity-20"
                 onClick={() => setPage((p) => p + 1)}
                 disabled={isLoading || page >= 10 || (data.results.length < 100)}
               >
-                Next
+                NEXT_CHUNK &rarr;
               </Button>
             </div>
             {page >= 10 && (
-              <p className="text-center text-xs text-gray-600 mt-4 ">
-                GitHub search limit reached (1,000 users). Try refining your location to discover more talent.
+              <p className="text-center text-[9px] text-slate-700 mt-8 font-black uppercase tracking-widest">
+                PROTOCOL_LIMIT: 1,000 NODES_SAMPLED. REFINE COORDINATES FOR FURTHER SURVEILLANCE.
               </p>
             )}
           </div>

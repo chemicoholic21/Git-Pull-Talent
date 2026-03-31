@@ -16,41 +16,44 @@ interface SkillBreakdownProps {
 
 export function SkillBreakdown({ scores, className }: SkillBreakdownProps) {
   const categories = [
-    { label:"AI", value: scores.ai, color:"bg-purple-500" },
-    { label:"Backend", value: scores.backend, color:"bg-blue-500" },
-    { label:"Frontend", value: scores.frontend, color:"bg-cyan-500" },
-    { label:"DevOps", value: scores.devops, color:"bg-green-500" },
-    { label:"Data", value: scores.data, color:"bg-yellow-500" },
+    { label: "AI", value: scores.ai, color: "bg-[#7F5AF0]" },
+    { label: "Backend", value: scores.backend, color: "bg-[#0072FF]" },
+    { label: "Frontend", value: scores.frontend, color: "bg-[#00D9F5]" },
+    { label: "DevOps", value: scores.devops, color: "bg-[#00F5A0]" },
+    { label: "Data", value: scores.data, color: "bg-[#F500D9]" },
   ];
 
   // Calculate percentages relative to the highest category score or a fixed maximum
   const maxScore = Math.max(...categories.map(c => c.value), 10);
 
   return (
-    <div className={cn("space-y-4 w-full", className)}>
-      <h4 className="text-[10px] tracking-[0.3em] uppercase font-bold text-gray-500 mb-4">Skill Breakdown</h4>
-      <div className="space-y-3">
+    <div className={cn("space-y-6 w-full", className)}>
+      <h4 className="text-[10px] tracking-[0.4em] uppercase font-black text-slate-600 mb-6">Neural Breakdown</h4>
+      <div className="space-y-4">
         {categories.map((category) => (
           <div key={category.label} className="group">
-            <div className="flex justify-between items-center mb-1">
-              <span className="text-xs  text-gray-400 group-hover:text-white transition-colors">
+            <div className="flex justify-between items-end mb-2">
+              <span className="text-[10px] font-black tracking-widest text-slate-500 group-hover:text-white transition-colors uppercase">
                 {category.label}
               </span>
-              <span className="text-xs  text-gray-500">
+              <span className="text-xs font-mono text-slate-400">
                 {category.value.toFixed(1)}
               </span>
             </div>
-            <div className="h-1.5 w-full bg-gray-800 rounded-full overflow-hidden">
+            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
               <div
                 className={cn("h-full transition-all duration-1000 ease-out rounded-full", category.color)}
-                style={{ width: `${Math.min((category.value / maxScore) * 100, 100)}%` }}
+                style={{ 
+                  width: `${Math.min((category.value / maxScore) * 100, 100)}%`,
+                  boxShadow: `0 0 8px ${category.color.replace('bg-', '')}` 
+                }}
               />
             </div>
           </div>
         ))}
       </div>
-      <p className="text-[9px] text-gray-600  mt-4 italic uppercase">
-        * Category scores derived from repository topics & languages
+      <p className="text-[9px] text-slate-700 mt-6 italic uppercase font-black tracking-tighter">
+        * Signal strength derived from node metadata
       </p>
     </div>
   );

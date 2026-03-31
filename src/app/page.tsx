@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from"react";
-import { useRouter } from"next/navigation";
-import { useSession } from"next-auth/react";
-import { useLeaderboard } from"@/hooks/useLeaderboard";
-import Link from"next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useLeaderboard } from "@/hooks/useLeaderboard";
+import Link from "next/link";
+import { ArrowRight, Terminal, BarChart2, Activity, Shield, Users, Database } from "lucide-react";
 
 export default function HomePage() {
   const [username, setUsername] = useState("");
@@ -22,203 +23,247 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-400 selection:bg-sky-500/30">
-      {/* Cinematic Hero Section */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-32 md:pt-40 pb-32 px-4 overflow-hidden">
-        {/* Atmospheric Blurs */}
-        <div className="atmospheric-blur top-[-10%] left-[-10%] opacity-20 animate-pulse" />
-        <div className="atmospheric-blur bottom-[-20%] right-[-10%] bg-purple-500/10 opacity-20" />
-        
-        <div className="container mx-auto relative z-10 text-center">
-          <div className="max-w-5xl mx-auto">
-            <span className="inline-block text-sky-400  text-sm tracking-[0.3em] uppercase mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-              Developer Intelligence Platform
+    <div className="min-h-screen bg-[#0b0f1a] text-slate-300 layout-grid selection:bg-[#00D9F5]/30">
+      
+      {/* Top Protocol Status Bar */}
+      <div className="w-full border-b border-white/5 bg-[#121826]/50 backdrop-blur-md sticky top-0 z-40 hidden md:block">
+        <div className="container mx-auto px-6 h-10 flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-slate-500">
+          <div className="flex items-center gap-6">
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#00F5A0]"></span>
+              Core System Active
             </span>
-            <h1 className="editorial-heading text-6xl md:text-9xl mb-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-              Quantify your <br />
-              <span className="italic text-white/90">open source</span> impact.
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-500 mb-16 max-w-3xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-400">
-              A cinematic perspective on contribution importance across the global software ecosystem. 
-              Precision analytics for the modern engineer.
-            </p>
-
-            <div className="animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-500">
-              <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto mb-12 group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-sky-500/20 to-purple-500/20 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200" />
-                <div className="relative flex items-center bg-[#161b22] border border-white/10 rounded-full p-2 pl-8 focus-within:border-white/20 transition-all shadow-2xl">
-                  <input
-                    type="text"
-                    placeholder="Search any GitHub identity..."
- className="w-full bg-transparent border-none py-4 text-white placeholder-gray-600 focus:outline-none text-lg"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                  <button
-                    type="submit"
-                    disabled={isPending}
- className="bg-white text-black font-bold h-14 px-10 rounded-full transition-all hover:scale-105 active:scale-95 disabled:bg-gray-800 disabled:text-gray-500 flex items-center justify-center min-w-[140px]"
-                  >
-                    {isPending ? (
-                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                    ) : (
-"Analyze"
-                    )}
-                  </button>
-                </div>
-              </form>
-
-              {(session?.user?.login || session?.user?.name) && (
-                <div className="flex items-center justify-center gap-6">
-                  <Link
-                    href={`/user/${(session.user.login || session.user.name!).toLowerCase()}`}
- className="group flex items-center gap-4 text-sm tracking-widest uppercase font-bold text-gray-500 hover:text-white transition-all"
-                  >
-                    <img
-                      src={session.user.image ||""}
-                      alt={session.user.name ||"User"}
- className="w-10 h-10 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
-                    />
-                    <span>Analyze my identity &rarr;</span>
-                  </Link>
-                </div>
-              )}
-            </div>
+            <span>Version: 2.1.0</span>
+            <span>Uptime: 99.99%</span>
+          </div>
+          <div className="flex items-center gap-6 mt-8 md:mt-0 text-slate-500 text-xs font-bold uppercase tracking-widest">
+             <Link href="https://github.com/gitpulltalent-app" className="hover:text-white transition-colors">GitHub</Link>
+             <Link href="/leaderboard" className="hover:text-white transition-colors">Global Index</Link>
           </div>
         </div>
+      </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-20">
-          <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-      </section>
-
-      {/* Cinematic Stats Section */}
-      <section className="py-40 px-4 border-t border-white/5 relative overflow-hidden">
-         <div className="atmospheric-blur top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-sky-500/5 opacity-50" />
-         
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
-            <div>
-              <span className="text-sky-400  text-xs tracking-widest uppercase mb-6 block font-bold">Metrics & Impact</span>
-              <h2 className="editorial-heading text-5xl md:text-6xl mb-8 leading-tight">
-                Beyond the <br />
-                <span className="italic text-white/80">contribution graph.</span>
-              </h2>
-              <p className="text-xl text-gray-500 mb-12 leading-relaxed">
-                Git Pull Talent employs advanced weighted algorithms to determine the mathematical significance of your work 
-                within the global open source fabric.
-              </p>
-              <div className="flex gap-8">
-                <Link href="/leaderboard" className="text-white font-bold tracking-widest uppercase text-xs border-b border-white/20 pb-2 hover:border-white transition-all">
-                  Global Leaderboard
-                </Link>
-                <Link href="https://github.com" className="text-gray-500 font-bold tracking-widest uppercase text-xs border-b border-transparent pb-2 hover:text-white transition-all">
-                  Protocol Docs
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="cinematic-card p-8 group">
-                <p className="text-gray-600 text-[10px] tracking-[0.2em] uppercase mb-2 font-bold group-hover:text-sky-400 transition-colors">Cumulative Rank</p>
-                <p className="text-4xl  text-white">#1,422</p>
-              </div>
-              <div className="cinematic-card p-8 group">
-                <p className="text-gray-600 text-[10px] tracking-[0.2em] uppercase mb-2 font-bold group-hover:text-purple-400 transition-colors">Status</p>
-                <p className="text-xl  text-white uppercase tracking-wider">Core</p>
-              </div>
-              <div className="cinematic-card p-8 sm:col-span-2 group">
-                <p className="text-gray-600 text-[10px] tracking-[0.2em] uppercase mb-4 font-bold group-hover:text-sky-400 transition-colors">Primary Repository</p>
-                <div className="flex justify-between items-end">
-                  <p className="text-2xl  text-white">facebook/react</p>
-                  <p className="text-sky-400  text-sm">+842.1</p>
-                </div>
-              </div>
-            </div>
+      <section className="container mx-auto px-6 pt-32 pb-24 border-x border-white/5 border-dashed min-h-[calc(100vh-2.5rem)] flex flex-col justify-center">
+        <div className="max-w-4xl">
+          <div className="inline-flex items-center gap-2 border border-white/10 bg-[#121826] px-3 py-1.5 rounded-full mb-8">
+             <Terminal className="w-4 h-4 text-[#00F5A0]" />
+             <span className="text-xs font-mono text-slate-400">gitpulltalent init --analytics</span>
           </div>
-        </div>
-      </section>
-
-      {/* Leaderboard Table Section */}
-      <section className="py-40 px-4 bg-black/20">
-        <div className="container mx-auto max-w-4xl text-center mb-20">
-          <h2 className="editorial-heading text-4xl md:text-5xl mb-4">Elite Contributors</h2>
-          <p className="text-gray-500 tracking-widest uppercase text-xs font-bold">The vanguard of software engineering</p>
-        </div>
-
-        <div className="container mx-auto max-w-4xl">
-          <div className="cinematic-card overflow-x-auto">
-            <table className="w-full text-left whitespace-nowrap">
-              <thead>
-                <tr className="bg-white/5 text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">
-                  <th className="px-10 py-6">Rank</th>
-                  <th className="px-10 py-6">Engineer</th>
-                  <th className="px-10 py-6 text-right">Impact Score</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {leaderboardLoading ? (
-                  [...Array(5)].map((_, i) => (
-                    <tr key={i} className="animate-pulse">
-                      <td className="px-10 py-6"><div className="h-4 w-4 bg-white/5 rounded" /></td>
-                      <td className="px-10 py-6">
-                        <div className="flex items-center gap-4">
-                          <div className="w-8 h-8 bg-white/5 rounded-full" />
-                          <div className="h-4 w-32 bg-white/5 rounded" />
-                        </div>
-                      </td>
-                      <td className="px-10 py-6 text-right"><div className="h-4 w-16 bg-white/5 ml-auto rounded" /></td>
-                    </tr>
-                  ))
-                ) : (
-                  leaderboard?.data?.slice(0, 5).map((entry) => (
-                    <tr key={entry.username} className="hover:bg-white/[0.02] transition-colors group">
-                      <td className="px-10 py-6  text-gray-600 group-hover:text-sky-400 transition-colors">
-                        {entry.rank.toString().padStart(2, '0')}
-                      </td>
-                      <td className="px-10 py-6">
-                        <Link href={`/user/${entry.username}`} className="flex items-center gap-4">
-                          <img src={entry.avatarUrl} alt={entry.username} className="w-8 h-8 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all" />
-                          <span className="text-white font-medium group-hover:text-sky-400 transition-colors  text-lg">
-                            {entry.username}
-                          </span>
-                        </Link>
-                      </td>
-                      <td className="px-10 py-6 text-right  text-white font-bold text-lg">
-                        {entry.totalScore.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-          <div className="text-center mt-12">
-            <Link href="/leaderboard" className="text-[10px] tracking-[0.3em] uppercase font-bold text-gray-600 hover:text-white transition-all border-b border-white/10 pb-2 hover:border-white">
-              Full Protocol Ranking &rarr;
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Minimal Footer */}
-      <footer className="py-32 border-t border-white/5">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex justify-center gap-12 mb-16">
-            <Link href="https://github.com" className="text-xs tracking-widest uppercase font-bold text-gray-600 hover:text-white transition-all">Source</Link>
-            <Link href="#" className="text-xs tracking-widest uppercase font-bold text-gray-600 hover:text-white transition-all">Identity</Link>
-            <Link href="#" className="text-xs tracking-widest uppercase font-bold text-gray-600 hover:text-white transition-all">Privacy</Link>
-          </div>
-          <p className="text-gray-700 text-[10px] tracking-[0.4em] uppercase font-bold">
-            Git Pull Talent Protocol • Powered by <span className="text-gray-400">Next.js</span> & <span className="text-gray-400">Neon</span>
+          
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.1]">
+            Quantify Open Source Impact
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-slate-400 mb-12 max-w-2xl leading-relaxed font-light">
+            GitPullTalent transforms raw GitHub activity into precise mathematical metrics, offering a comprehensive assessment of engineering contribution quality.
           </p>
+
+          <form onSubmit={handleSearch} className="max-w-2xl mb-12">
+            <div className="dev-surface flex items-center p-2 focus-within:border-white/20 transition-colors">
+              <div className="pl-4 text-slate-500 font-mono text-sm shrink-0">~/$ search --user</div>
+              <input
+                type="text"
+                placeholder="github_username"
+                className="w-full bg-transparent border-none py-3 px-4 text-white text-lg font-mono placeholder:text-slate-600 focus:outline-none"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                spellCheck={false}
+              />
+              <button
+                type="submit"
+                disabled={isPending}
+                className="bg-[#00D9F5] text-[#0b0f1a] font-bold h-12 px-8 rounded-xl shrink-0 flex items-center justify-center min-w-[140px] hover:opacity-90 transition-opacity active:scale-[0.98] disabled:opacity-50"
+              >
+                {isPending ? (
+                   <span className="font-mono text-sm uppercase">Executing...</span>
+                ) : (
+                  <span className="flex items-center gap-2 text-sm font-mono uppercase tracking-wider">
+                     Analyze <ArrowRight className="w-4 h-4" />
+                  </span>
+                )}
+              </button>
+            </div>
+          </form>
+
+          {(session?.user?.login || session?.user?.name) && (
+            <div className="flex items-center gap-4 animate-in fade-in duration-500">
+               <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Authenticated as</span>
+               <Link
+                href={`/user/${(session.user.login || session.user.name!).toLowerCase()}`}
+                className="flex items-center gap-3 bg-[#121826] hover:bg-[#1a2236] border border-white/5 py-2 px-4 rounded-xl transition-all"
+               >
+                  <img
+                    src={session.user.image || ""}
+                    alt={session.user.name || "User"}
+                    className="w-6 h-6 rounded-full"
+                  />
+                  <span className="font-mono text-sm text-slate-200">{(session.user.login || session.user.name!)}</span>
+               </Link>
+            </div>
+          )}
         </div>
+      </section>
+
+      {/* Grid Dashboard Layout Section */}
+      <section className="container mx-auto px-6 py-24 border-x border-t border-white/5 border-dashed">
+        <div className="mb-16">
+           <h2 className="dev-heading text-3xl mb-4">Architecture & Metrics</h2>
+           <p className="text-slate-400 font-mono text-sm">Real-time insight protocol structure</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Card 1 */}
+          <div className="dev-card p-8 flex flex-col">
+             <div className="w-10 h-10 rounded-lg bg-[#1a2236] border border-white/10 flex items-center justify-center mb-6">
+                <BarChart2 className="w-5 h-5 text-[#00D9F5]" />
+             </div>
+             <h3 className="text-lg font-bold text-white mb-3 tracking-tight">Impact Weighting</h3>
+             <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+               Raw commit counts are superficial. We analyze the trajectory of repositories you contribute to, evaluating repository popularity against your specific merge ratio.
+             </p>
+             <div className="bg-[#0b0f1a] border border-white/5 p-4 rounded-xl font-mono text-[10px] text-slate-500">
+                <span className="text-[#00F5A0]">score</span> = Math.min(stars * (userPRs / totalPRs), 10000)
+             </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className="dev-card p-8 flex flex-col">
+             <div className="w-10 h-10 rounded-lg bg-[#1a2236] border border-white/10 flex items-center justify-center mb-6">
+                <Activity className="w-5 h-5 text-[#00D9F5]" />
+             </div>
+             <h3 className="text-lg font-bold text-white mb-3 tracking-tight">Language Distribution</h3>
+             <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
+               Analyze proficiency across diverse technology stacks. The system tracks the primary languages of integrated project environments.
+             </p>
+             <div className="flex flex-col gap-2">
+                 <div className="flex items-center gap-2">
+                    <div className="w-full bg-[#1a2236] h-1.5 rounded-full overflow-hidden">
+                       <div className="bg-[#00D9F5] h-full" style={{ width: '60%' }}></div>
+                    </div>
+                    <span className="text-xs font-mono text-slate-500 w-8">TS</span>
+                 </div>
+                 <div className="flex items-center gap-2">
+                    <div className="w-full bg-[#1a2236] h-1.5 rounded-full overflow-hidden">
+                       <div className="bg-[#00F5A0] h-full" style={{ width: '30%' }}></div>
+                    </div>
+                    <span className="text-xs font-mono text-slate-500 w-8">rs</span>
+                 </div>
+                 <div className="flex items-center gap-2">
+                    <div className="w-full bg-[#1a2236] h-1.5 rounded-full overflow-hidden">
+                       <div className="bg-[#7F5AF0] h-full" style={{ width: '10%' }}></div>
+                    </div>
+                    <span className="text-xs font-mono text-slate-500 w-8">py</span>
+                 </div>
+             </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="dev-card p-8 flex flex-col md:row-span-2">
+             <div className="w-10 h-10 rounded-lg bg-[#1a2236] border border-white/10 flex items-center justify-center mb-6">
+                <Database className="w-5 h-5 text-[#00D9F5]" />
+             </div>
+             <h3 className="text-lg font-bold text-white mb-3 tracking-tight">System Infrastructure</h3>
+             <p className="text-slate-400 text-sm leading-relaxed mb-8">
+               Built for absolute scale and determinism. A tiered pipeline caches initial evaluations, backed by scalable relational databases.
+             </p>
+             <div className="space-y-4">
+               {[
+                 { label: "GraphQL Relay", val: "Up to 15k req/hr" },
+                 { label: "Data Cache", val: "Redis L1 • 6h TTL" },
+                 { label: "Storage", val: "Neon Postgres L2" },
+                 { label: "Edge Auth", val: "NextAuth v5 Protocol" }
+               ].map((item, i) => (
+                 <div key={i} className="flex justify-between items-center py-3 border-b border-white/5 last:border-0">
+                   <span className="text-sm text-slate-400">{item.label}</span>
+                   <span className="text-xs font-mono text-[#00F5A0]">{item.val}</span>
+                 </div>
+               ))}
+             </div>
+          </div>
+
+          {/* Card 4 - Spans 2 columns */}
+          <div className="dev-card p-8 md:col-span-2 flex items-center justify-between">
+              <div>
+                 <h3 className="text-lg font-bold text-white mb-2 tracking-tight">Global Leaderboard View</h3>
+                 <p className="text-slate-400 text-sm">Compare technical footprint securely against peer developers.</p>
+              </div>
+              <Link href="/leaderboard" className="hidden sm:flex items-center gap-2 px-6 py-3 bg-[#1a2236] hover:bg-white/10 transition-colors rounded-xl border border-white/5 text-sm font-mono text-white">
+                 Query Data <Activity className="w-4 h-4" />
+              </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Structured Leaderboard Teaser */}
+      <section className="container mx-auto px-6 py-24 border-x border-t border-white/5 border-dashed">
+         <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/5 pb-6">
+            <div>
+               <h2 className="dev-heading text-3xl mb-2">Vanguard Identity Matrix</h2>
+               <p className="text-slate-400 font-mono text-sm max-w-lg">Ranked dynamically by mathematical score coefficient across aggregate repositories.</p>
+            </div>
+            <Link href="/leaderboard" className="mt-6 md:mt-0 text-[#00D9F5] hover:text-white transition-colors font-mono text-sm flex items-center gap-2">
+               [View Full Array]
+            </Link>
+         </div>
+
+         <div className="dev-surface overflow-hidden">
+            <div className="overflow-x-auto">
+               <table className="w-full text-left font-mono text-sm">
+                 <thead>
+                   <tr className="bg-[#0b0f1a] border-b border-white/5 text-slate-500">
+                     <th className="px-6 py-4 font-normal uppercase tracking-wider">Rank</th>
+                     <th className="px-6 py-4 font-normal uppercase tracking-wider">Identity</th>
+                     <th className="px-6 py-4 font-normal text-right uppercase tracking-wider">Computed Coefficient</th>
+                   </tr>
+                 </thead>
+                 <tbody className="divide-y divide-white/5">
+                   {leaderboardLoading ? (
+                     [...Array(5)].map((_, i) => (
+                       <tr key={i} className="animate-pulse bg-[#121826]/30">
+                         <td className="px-6 py-4"><div className="w-4 h-4 bg-white/5 rounded" /></td>
+                         <td className="px-6 py-4"><div className="w-32 h-4 bg-white/5 rounded" /></td>
+                         <td className="px-6 py-4"><div className="w-20 h-4 bg-white/5 ml-auto rounded" /></td>
+                       </tr>
+                     ))
+                   ) : (
+                     leaderboard?.data?.slice(0, 5).map((entry, idx) => (
+                       <tr key={entry.username} className="hover:bg-white/5 transition-colors group">
+                         <td className="px-6 py-5 text-slate-500 group-hover:text-white transition-colors">
+                            {String(idx + 1).padStart(2, '0')}
+                         </td>
+                         <td className="px-6 py-5">
+                           <Link href={`/user/${entry.username}`} className="flex items-center gap-4">
+                             <img src={entry.avatarUrl} alt="" className="w-8 h-8 rounded-lg border border-white/10 grayscale group-hover:grayscale-0 transition-all" />
+                             <span className="text-slate-300 group-hover:text-[#00D9F5] transition-colors">{entry.username}</span>
+                           </Link>
+                         </td>
+                         <td className="px-6 py-5 text-right text-white">
+                           {entry.totalScore.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+                         </td>
+                       </tr>
+                     ))
+                   )}
+                 </tbody>
+               </table>
+            </div>
+         </div>
+      </section>
+
+      {/* Footer Grid */}
+      <footer className="container mx-auto px-6 py-12 border-x border-t border-white/5 border-dashed">
+         <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-t border-white/5 pt-12">
+            <div className="flex items-center gap-2 text-slate-500 font-mono text-xs uppercase tracking-widest">
+               <Shield className="w-4 h-4 text-[#7F5AF0]" /> Internal Build
+            </div>
+            
+            <div className="text-white font-bold text-xl tracking-tight">
+               GIT<span className="text-[#00F5A0]">PULLTALENT</span>
+            </div>
+
+            <div className="text-slate-500 font-mono text-xs uppercase tracking-widest">
+               2026 Protocol
+            </div>
+         </div>
       </footer>
     </div>
   );

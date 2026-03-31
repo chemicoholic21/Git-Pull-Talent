@@ -55,58 +55,63 @@ export default function IssuesPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-200 py-32 px-6">
+    <div className="min-h-screen bg-[#0b0f1a] text-slate-300 py-40 px-6 grid-background">
+      <div className="grain-overlay opacity-[0.02]" />
       <div className="container mx-auto max-w-6xl">
-        <div className="mb-12 space-y-8">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
-                Good First Issues
+        <div className="mb-20 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12">
+            <div className="space-y-6">
+              <div className="inline-block px-4 py-1 rounded-sm bg-[#00F5A0]/10 border border-[#00F5A0]/20">
+                <span className="text-[#00F5A0] text-[10px] tracking-[0.4em] uppercase font-black">Mission Control</span>
+              </div>
+              <h1 className="editorial-heading text-5xl md:text-7xl">
+                Open <span className="neon-gradient-text italic">Missions</span>
               </h1>
-              <p className="text-lg text-gray-400 max-w-2xl leading-relaxed">
-                Jumpstart your open-source journey with these beginner-friendly issues.
+              <p className="text-xl text-slate-400 max-w-3xl leading-relaxed font-light">
+                Initialize your trajectory within the global ecosystem via high-impact entry nodes.
               </p>
             </div>
             
             <div className="relative group w-full lg:w-96">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#00F5A0] to-[#00D9F5] rounded-xl blur opacity-0 group-focus-within:opacity-20 transition-opacity" />
               <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                <Search className="w-4 h-4 text-gray-500 group-focus-within:text-cyan-400 transition-colors" />
+                <Search className="w-4 h-4 text-slate-500" />
               </div>
               <input
                 type="text"
-                placeholder="Search by title, repo, or label..."
+                placeholder="MISSION_SEARCH..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-gray-900/50 border border-gray-800 rounded-xl py-3 pl-12 pr-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500/50 transition-all backdrop-blur-sm"
+                className="w-full bg-[#1a2236]/50 border border-white/5 rounded-xl py-4 pl-12 pr-4 text-[10px] font-black tracking-widest text-white placeholder-slate-700 focus:outline-none transition-all backdrop-blur-xl uppercase"
               />
             </div>
           </div>
         </div>
 
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-24 gap-4">
-            <Loader2 className="w-12 h-12 text-cyan-500 animate-spin" />
-            <p className="text-gray-500 font-mono text-sm tracking-widest uppercase">Scanning for Opportunities...</p>
+          <div className="flex flex-col items-center justify-center py-40 gap-8 animate-pulse">
+            <div className="h-16 w-16 border-4 border-[#00F5A0]/20 border-t-[#00F5A0] rounded-full animate-spin neon-glow" />
+            <p className="text-slate-600 font-black text-[10px] tracking-[0.5em] uppercase">Decrypting Mission Data...</p>
           </div>
         ) : filteredIssues.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
             {filteredIssues.map((issue) => (
               <div
                 key={issue.id}
-                className="group relative bg-gray-900/40 border border-gray-800 hover:border-cyan-500/30 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/5"
+                className="cinematic-card p-10 group relative overflow-hidden"
               >
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
-                  <div className="flex-1 space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="px-2 py-1 bg-green-500/10 border border-green-500/20 rounded text-[10px] font-bold text-green-400 uppercase tracking-wider">
-                        Open
+                <div className="flex flex-col md:flex-row md:items-start justify-between gap-10">
+                  <div className="flex-1 space-y-6">
+                    <div className="flex items-center gap-4">
+                      <div className="px-3 py-1 bg-[#00F5A0]/10 border border-[#00F5A0]/20 rounded text-[9px] font-black text-[#00F5A0] uppercase tracking-[0.2em]">
+                        ACTIVE_NODE
                       </div>
                       <Link 
                         href={`https://github.com/${issue.repository.name}`}
                         target="_blank"
-                        className="text-xs font-mono text-gray-500 hover:text-cyan-400 transition-colors flex items-center gap-1.5"
+                        className="text-[10px] font-black tracking-widest text-slate-500 hover:text-[#00D9F5] transition-colors flex items-center gap-2 uppercase"
                       >
-                        <BookOpen className="w-3 h-3" />
+                        <BookOpen className="w-3.5 h-3.5" />
                         {issue.repository.name}
                       </Link>
                     </div>
@@ -115,25 +120,23 @@ export default function IssuesPage() {
                       href={issue.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block group-hover:text-cyan-400 transition-colors"
+                      className="block group-hover:text-[#00D9F5] transition-all"
                     >
-                      <h3 className="text-xl font-bold text-white leading-tight">
+                      <h3 className="text-3xl font-bold text-white tracking-tight leading-tight">
                         {issue.title}
                       </h3>
                     </a>
 
-                    <p className="text-sm text-gray-400 line-clamp-2 leading-relaxed">
-                      {issue.bodyText}
+                    <p className="text-lg text-slate-400 line-clamp-2 leading-relaxed font-light">
+                      {issue.bodyText || "No decryption available for this mission packet."}
                     </p>
 
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-3">
                       {issue.labels.map((label) => (
                         <span
                           key={label.name}
-                          className="px-2 py-0.5 rounded-full text-[10px] font-medium border"
+                          className="px-3 py-1 rounded-md text-[9px] font-black uppercase tracking-widest border border-white/5 bg-white/5"
                           style={{ 
-                            backgroundColor: `#${label.color}15`, 
-                            borderColor: `#${label.color}40`,
                             color: `#${label.color}` 
                           }}
                         >
@@ -143,14 +146,14 @@ export default function IssuesPage() {
                     </div>
                   </div>
 
-                  <div className="flex flex-row md:flex-col justify-between md:items-end gap-4 shrink-0">
-                    <div className="flex items-center gap-4 md:flex-col md:items-end md:gap-2">
-                      <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                        <Star className="w-3 h-3 text-amber-400" />
-                        {issue.repository.stars.toLocaleString()}
+                  <div className="flex flex-row md:flex-col justify-between md:items-end gap-8 shrink-0">
+                    <div className="flex items-center gap-8 md:flex-col md:items-end md:gap-4">
+                      <div className="flex items-center gap-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                        <Star className="w-4 h-4 text-[#00F5A0]" />
+                        {issue.repository.stars.toLocaleString()} MAG
                       </div>
-                      <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                        <Clock className="w-3 h-3" />
+                      <div className="flex items-center gap-2.5 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                        <Clock className="w-4 h-4 text-[#7F5AF0]" />
                         {new Date(issue.createdAt).toLocaleDateString()}
                       </div>
                     </div>
@@ -159,10 +162,10 @@ export default function IssuesPage() {
                       href={issue.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-gray-800/50 hover:bg-cyan-500/10 border border-gray-700 hover:border-cyan-500/30 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-cyan-400 transition-all"
+                      className="flex items-center gap-4 px-10 py-4 neon-gradient-bg text-[#0b0f1a] rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 neon-glow"
                     >
-                      View Issue
-                      <ExternalLink className="w-3 h-3" />
+                      Initialize Mission
+                      <ExternalLink className="w-4 h-4" />
                     </a>
                   </div>
                 </div>
@@ -170,22 +173,23 @@ export default function IssuesPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-24 bg-gray-900/20 border border-gray-800/50 rounded-3xl backdrop-blur-sm">
-            <Tag className="w-12 h-12 text-gray-700 mx-auto mb-4" />
-            <p className="text-gray-500 font-mono uppercase tracking-widest">No issues found matching your criteria</p>
+          <div className="text-center py-40 cinematic-card">
+            <Tag className="w-16 h-16 text-slate-800 mx-auto mb-8" />
+            <p className="text-slate-600 font-black uppercase tracking-[0.4em] text-[10px]">No mission opportunities detected in current sub-network</p>
           </div>
         )}
 
-        <div className="mt-16 text-center">
-          <p className="text-[10px] text-gray-600 uppercase tracking-[0.4em] mb-8">
-            Real-time search powered by GitHub API
+        <div className="mt-32 text-center">
+          <p className="text-[10px] text-slate-700 uppercase tracking-[0.5em] mb-12 font-black">
+            Mission Surveillance powered by GitHub Intelligence
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-8">
             <Link
               href="/trending"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 border border-gray-800 rounded-full text-xs font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white hover:border-gray-600 transition-all"
+              className="inline-flex items-center gap-4 px-10 py-5 glass-effect rounded-xl text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 hover:text-[#00F5A0] hover:border-[#00F5A0]/30 transition-all group"
             >
-              Discover Trending Repos
+              Surveil Trending Nodes
+              <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
             </Link>
           </div>
         </div>
