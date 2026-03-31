@@ -37,7 +37,7 @@ export default function HomePage() {
             <span>Uptime: 99.99%</span>
           </div>
           <div className="flex items-center gap-6 mt-8 md:mt-0 text-slate-500 text-xs font-bold uppercase tracking-widest">
-             <Link href="https://github.com/gitpulltalent-app" className="hover:text-white transition-colors">GitHub</Link>
+             <Link href="https://github.com/chemicoholic21/Git-Pull-Talent" className="hover:text-white transition-colors">GitHub</Link>
              <Link href="/leaderboard" className="hover:text-white transition-colors">Global Index</Link>
           </div>
         </div>
