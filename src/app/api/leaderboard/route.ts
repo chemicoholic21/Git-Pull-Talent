@@ -70,6 +70,8 @@ export async function GET(request: NextRequest) {
       filters.push(eq(leaderboard.isOpenToWork, true));
     } else if (openToWork === "false") {
       filters.push(eq(leaderboard.isOpenToWork, false));
+    } else if (openToWork === "null") {
+      filters.push(sql`${leaderboard.isOpenToWork} IS NULL`);
     }
     
     // If a category is selected, we might want to only show users with score > 0 in that category
