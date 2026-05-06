@@ -30,7 +30,8 @@ import {
   Github,
   GitPullRequest,
   Star,
-  GitFork,
+  Info,
+  Calculator,
   Code2,
   Timer,
   ExternalLink,
@@ -382,7 +383,8 @@ export default function RepoScoresPage() {
                                   </p>
                                 )}
 
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                {/* Stats Grid */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                                   <div className="p-4 bg-[#121826] rounded-xl border border-white/5">
                                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-2">Repo Score</p>
                                     <p className="text-2xl font-bold text-[#7F5AF0]">{(entry.repoScore || 0).toFixed(2)}</p>
@@ -395,9 +397,37 @@ export default function RepoScoresPage() {
                                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-2">Total PRs</p>
                                     <p className="text-2xl font-bold text-[#00F5A0]">{entry.totalPrs}</p>
                                   </div>
-                                  <div className="p-4 bg-[#121826] rounded-xl border border-white/5">
-                                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-2">Forks</p>
-                                    <p className="text-2xl font-bold text-[#F59E0B]">{entry.forks || 0}</p>
+                                </div>
+
+                                {/* Score Calculation Explanation */}
+                                <div className="mb-6 p-5 bg-[#121826] rounded-xl border border-white/5">
+                                  <div className="flex items-center gap-2 mb-4">
+                                    <Calculator className="h-4 w-4 text-[#7F5AF0]" />
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">How This Score Was Calculated</p>
+                                  </div>
+
+                                  <div className="space-y-4">
+                                    <div className="text-sm text-slate-300 font-mono bg-[#0b0f1a] p-4 rounded-lg border border-white/5">
+                                      <p className="text-[#7F5AF0] mb-2">Repo Score = PR Factor × TTM Factor × Scale</p>
+                                      <div className="text-slate-500 space-y-1 text-xs">
+                                        <p>• <span className="text-[#00F5A0]">PR Factor</span> = log₁₀(Total PRs + 1) = log₁₀({entry.totalPrs} + 1) = <span className="text-white">{Math.log10(entry.totalPrs + 1).toFixed(3)}</span></p>
+                                        <p>• <span className="text-[#00D9F5]">TTM Factor</span> = 72 / (Median TTM + 72)</p>
+                                        <p className="pl-4 text-slate-600">→ Faster merge times = higher factor (max 1.0 at 0 hours)</p>
+                                        <p className="pl-4 text-slate-600">→ 72 hours (3 days) TTM = 0.5 factor</p>
+                                        <p className="pl-4 text-slate-600">→ 168 hours (7 days) TTM = 0.3 factor</p>
+                                        <p>• <span className="text-[#F59E0B]">Scale</span> = 10</p>
+                                      </div>
+                                    </div>
+
+                                    <div className="flex items-start gap-2 text-xs text-slate-500">
+                                      <Info className="h-3.5 w-3.5 mt-0.5 shrink-0 text-slate-600" />
+                                      <p>
+                                        The score rewards repositories with <span className="text-[#00F5A0]">high PR activity</span> and
+                                        <span className="text-[#00D9F5]"> fast merge times</span>. Repos where PRs get reviewed and merged quickly
+                                        score higher than those with long review cycles. The TTM (Time To Merge) is calculated as the median
+                                        time between PR creation and merge for all merged PRs in the repository.
+                                      </p>
+                                    </div>
                                   </div>
                                 </div>
 
@@ -418,7 +448,8 @@ export default function RepoScoresPage() {
                                   </div>
                                 )}
 
-                                <div className="flex gap-4">
+                                {/* Action Buttons */}
+                                <div className="flex flex-wrap gap-3">
                                   <a
                                     href={`https://github.com/${entry.repoName}`}
                                     target="_blank"
@@ -428,6 +459,36 @@ export default function RepoScoresPage() {
                                     <Button className="bg-[#7F5AF0] text-white hover:bg-[#7F5AF0]/90 h-10 rounded-lg font-bold uppercase tracking-wider text-xs flex items-center gap-2">
                                       <Github className="h-4 w-4" />
                                       VIEW_REPO
+                                      <ExternalLink className="h-3 w-3" />
+                                    </Button>
+                                  </a>
+                                  <a
+                                    href={`https://github.com/${entry.repoName}/pulls?q=is%3Apr+author%3A${entry.username}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <Button
+                                      variant="outline"
+                                      className="h-10 border-[#00D9F5]/30 bg-[#00D9F5]/10 text-[#00D9F5] hover:bg-[#00D9F5]/20 rounded-lg font-bold uppercase tracking-wider text-xs flex items-center gap-2"
+                                    >
+                                      <GitPullRequest className="h-4 w-4" />
+                                      VIEW_USER_PRS ({entry.userPrs})
+                                      <ExternalLink className="h-3 w-3" />
+                                    </Button>
+                                  </a>
+                                  <a
+                                    href={`https://github.com/${entry.repoName}/pulls?q=is%3Apr+is%3Amerged`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <Button
+                                      variant="outline"
+                                      className="h-10 border-[#00F5A0]/30 bg-[#00F5A0]/10 text-[#00F5A0] hover:bg-[#00F5A0]/20 rounded-lg font-bold uppercase tracking-wider text-xs flex items-center gap-2"
+                                    >
+                                      <GitPullRequest className="h-4 w-4" />
+                                      ALL_MERGED_PRS
                                       <ExternalLink className="h-3 w-3" />
                                     </Button>
                                   </a>
