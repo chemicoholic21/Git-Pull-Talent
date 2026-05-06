@@ -122,7 +122,6 @@ export async function GET(request: NextRequest) {
         description: githubRepos.description,
         primaryLanguage: githubRepos.primaryLanguage,
         topics: githubRepos.topics,
-        forks: githubRepos.forks,
         ownerLogin: githubRepos.ownerLogin,
       })
       .from(userRepoScores)

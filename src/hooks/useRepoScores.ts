@@ -13,7 +13,6 @@ export interface RepoScoreEntry {
   description: string | null;
   primaryLanguage: string | null;
   topics: string[] | null;
-  forks: number | null;
   ownerLogin: string | null;
   avatarUrl: string | null;
   name: string | null;
