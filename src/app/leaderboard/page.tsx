@@ -97,13 +97,13 @@ export default function LeaderboardPage() {
   );
 
   return (
-    <div className="min-h-screen layout-grid border-x border-white/5 border-dashed">
+    <div className="min-h-screen">
       <div className="container mx-auto px-6 pt-32 pb-24">
         <div className="mb-12 space-y-4">
           <h1 className="dev-heading text-4xl md:text-5xl">
-            Developer Leaderboard
+            Developer leaderboard
           </h1>
-          <p className="text-lg text-slate-400 max-w-2xl leading-relaxed">
+          <p className="text-lg text-zinc-500 max-w-2xl leading-relaxed">
             Discover the most impactful open-source contributors based on their merged pull requests and project influence.
           </p>
         </div>
@@ -143,15 +143,15 @@ export default function LeaderboardPage() {
           )}
         </div>
 
-        <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-slate-600 uppercase tracking-[0.3em] border-t border-white/5 pt-8">
+        <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-zinc-600 border-t border-white/[0.04] pt-8">
           <div>Updated every 6 hours • Server Time: {new Date().toLocaleTimeString()}</div>
           <div className="flex gap-8">
             <span className="flex items-center gap-2">
-              <div className="h-1 w-1 rounded-full bg-[#00F5A0]" />
+              <div className="h-1 w-1 rounded-full bg-emerald-400" />
               Score Cap: 10,000
             </span>
             <span className="flex items-center gap-2">
-              <div className="h-1 w-1 rounded-full bg-[#00D9F5]" />
+              <div className="h-1 w-1 rounded-full bg-indigo-400" />
               Min Stars: 10
             </span>
           </div>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -6,31 +6,25 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: "Azeret Mono", ui-monospace, monospace;
-  --font-mono: "Azeret Mono", ui-monospace, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 @layer base {
   html,
   body {
-    background-color: #0b0f1a;
-    color: #e2e8f0;
+    background-color: #0c0c0f;
+    color: #a1a1aa;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: "Azeret Mono", ui-monospace, monospace !important;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     overflow-x: hidden;
+    letter-spacing: -0.011em;
   }
 
   code,
   pre {
-    font-family: "Azeret Mono", ui-monospace, monospace !important;
-  }
-
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-    font-family: "Azeret Mono", ui-monospace, monospace;
+    font-family: "JetBrains Mono", ui-monospace, monospace !important;
   }
 
   button {
@@ -42,73 +36,66 @@
   }
 
   body {
-    @apply bg-[#0b0f1a] text-slate-300;
+    @apply bg-[#0c0c0f] text-zinc-400;
   }
 }
 
 @layer components {
-  /* Core layout components */
-  .layout-grid {
-    background-image: 
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 32px 32px;
-  }
-
-  /* Cards */
   .dev-card {
-    @apply bg-[#121826] border border-white/5 rounded-2xl transition-all duration-200 
-           hover:border-white/10 hover:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.5)];
+    @apply bg-[#141418] border border-white/[0.06] rounded-2xl transition-all duration-200
+           hover:border-white/[0.1] hover:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.6)];
   }
 
   .dev-surface {
-    @apply bg-[#1a2236] border border-white/5 rounded-2xl transition-all duration-200;
+    @apply bg-[#18181c] border border-white/[0.06] rounded-2xl transition-all duration-200;
   }
 
-  /* Typography */
   .dev-heading {
-    @apply font-bold text-white uppercase tracking-wider;
-    font-family: "Azeret Mono", ui-monospace, monospace !important;
+    @apply font-bold text-white tracking-tight;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   }
 
-  /* Accents */
   .accent-cyan {
-    @apply text-[#00D9F5];
+    @apply text-[#818cf8];
   }
 
   .accent-teal {
-    @apply text-[#00F5A0];
+    @apply text-[#34d399];
   }
 
   .accent-glow {
-    box-shadow: 0 0 12px rgba(0, 245, 160, 0.15);
+    box-shadow: 0 0 20px rgba(129, 140, 248, 0.08);
   }
 
   .accent-glow-primary {
-    box-shadow: 0 0 16px rgba(0, 217, 245, 0.2);
+    box-shadow: 0 0 24px rgba(129, 140, 248, 0.1);
+  }
+
+  .text-balance {
+    text-wrap: balance;
   }
 }
 
 :root {
-  --background: oklch(0.145 0 0); /* #0b0f1a equivalent */
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 5%);
-  --input: oklch(1 0 0 / 10%);
-  --ring: oklch(0.556 0 0);
-  --radius: 1rem; /* 16px rounded corners */
+  --background: oklch(0.13 0.005 270);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.16 0.005 270);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.16 0.005 270);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.65 0.15 265);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.22 0.005 270);
+  --secondary-foreground: oklch(0.9 0 0);
+  --muted: oklch(0.22 0.005 270);
+  --muted-foreground: oklch(0.6 0 0);
+  --accent: oklch(0.22 0.005 270);
+  --accent-foreground: oklch(0.95 0 0);
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(1 0 0 / 6%);
+  --input: oklch(1 0 0 / 8%);
+  --ring: oklch(0.65 0.15 265);
+  --radius: 0.75rem;
 }
 
 @theme inline {
