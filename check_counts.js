@@ -1,10 +1,10 @@
-const { neon } = require("@neondatabase/serverless");
+const postgres = require("postgres");
 const dotenv = require("dotenv");
 const path = require("path");
 
 dotenv.config({ path: path.join(__dirname, ".env.local") });
 
-const sql = neon(process.env.DATABASE_URL);
+const sql = postgres(process.env.DATABASE_URL, { prepare: false });
 
 async function main() {
     try {
@@ -21,6 +21,8 @@ async function main() {
     } catch (err) {
         console.error("Query failed!");
         console.error(err);
+    } finally {
+        await sql.end();
     }
 }
 
