@@ -1,4 +1,3 @@
-
 # Git Pull Talent
 
 **Project Intelligence for Open Source Contributors**
@@ -31,21 +30,36 @@ A PR merged into a 40,000-star repo counts for more than ten merged into project
 
 ---
 
+## Features
+
+- **User Analysis** — Look up any GitHub user to see their contribution importance score, language distribution, and merged PR history across starred repos.
+- **Global Leaderboard** — Ranked developer index with filters by location, skills, open-to-work status, and more.
+- **Repo Score Leaderboard** — See which repos have the highest contributor efficiency scores.
+- **Efficiency Leaderboard** — Rank developers by contribution efficiency metrics.
+- **Trending Repositories** — Discover currently trending open source projects on GitHub.
+- **Good First Issues** — Find curated beginner-friendly issues from popular repos to start contributing.
+- **Discover** — Search for developers by location and analyze them in bulk.
+- **OpenGraph Images** — Auto-generated shareable cards for user profiles.
+
+---
+
 ## Stack
 
-Git Pull Talent is built on Next.js 14/15 (App Router) with a dark terminal aesthetic.
+Git Pull Talent is built on Next.js 16 (App Router) with a dark terminal aesthetic.
 
-- **Database** — Neon (serverless Postgres) via Drizzle ORM
+- **Database** — Supabase (Postgres) via Drizzle ORM
 - **Cache & rate limiting** — Upstash Redis
 - **Auth** — NextAuth.js v5 with GitHub OAuth
 - **Charts** — Recharts
-- **Styling** — Tailwind CSS
+- **UI components** — shadcn/ui
+- **Styling** — Tailwind CSS v4
+- **Data fetching** — TanStack React Query, Octokit (GraphQL + REST)
 
 ---
 
 ## Running Locally
 
-**Prerequisites:** Node.js 18+, a GitHub account, a [Neon](https://neon.tech) project, and an [Upstash](https://upstash.com) Redis database.
+**Prerequisites:** Node.js 18+, a GitHub account, a [Supabase](https://supabase.com) project, and an [Upstash](https://upstash.com) Redis database.
 
 **1. Clone and install**
 
@@ -65,11 +79,11 @@ GITHUB_CLIENT_ID="..."
 GITHUB_CLIENT_SECRET="..."
 
 # NextAuth
-NEXTAUTH_SECRET="..."
+NEXTAUTH_SECRET="..."       # Generate with: openssl rand -base64 32
 NEXTAUTH_URL="http://localhost:3000"
 
-# Neon (Postgres)
-DATABASE_URL="postgresql://..."
+# Supabase (Postgres) — use the Transaction pooler connection string (port 6543)
+DATABASE_URL="postgresql://postgres.<project-ref>:<password>@aws-0-<region>.pooler.supabase.com:6543/postgres"
 
 # Upstash (Redis)
 UPSTASH_REDIS_REST_URL="..."
@@ -95,9 +109,9 @@ npm run dev
 
 ## Deploying to Vercel
 
-**Neon (database)**
+**Supabase (database)**
 
-Create a project, grab the pooled connection string, and run `npm run db:push` locally against it to sync the schema before deploying.
+Create a project, grab the pooled connection string (port 6543), and run `npm run db:push` locally against it to sync the schema before deploying.
 
 **Upstash (cache)**
 
@@ -122,33 +136,6 @@ Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for
 
 ## License
 
-This project is licensed under the **MIT License** — you're free to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of this software, with one condition: the original copyright notice and this permission notice must be included in all copies or substantial portions of the software.
-
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-See the full license text in [LICENSE](./LICENSE).
-```
-
-And the standalone `LICENSE` file itself:
-```
-MIT License
+This project is licensed under the **MIT License** — see [LICENSE](./LICENSE) for details.
 
 Copyright (c) 2026 Taniya Souza
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
